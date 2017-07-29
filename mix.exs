@@ -12,6 +12,10 @@ defmodule Talib.Mixfile do
        licenses: ["MIT"],
        links: %{"GitHub" => "https://github.com/wuhkuh/talib"}
      ],
+     aliases: [
+       "test.all": ["test.types", "test"],
+       "test.types": ["dialyzer"]
+     ],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]

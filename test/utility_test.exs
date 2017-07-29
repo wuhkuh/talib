@@ -48,23 +48,67 @@ defmodule Talib.UtilityTest do
     assert Utility.high(Fixtures.numbers) === Fixtures.numbers_high
   end
 
+  test "high returns nil when the list is empty" do
+    assert Utility.high([]) === nil
+  end
+
+  test "high returns the number when the list is 1 number long" do
+    assert Utility.high([3]) == 3
+  end
+
   test "low returns the lowest value" do
     assert Utility.low(Fixtures.numbers) === Fixtures.numbers_low
+  end
+
+  test "low returns nil when the list is empty" do
+    assert Utility.low([]) === nil
+  end
+
+  test "low returns the number when the list is 1 number long" do
+    assert Utility.low([3]) == 3
   end
 
   test "change returns the change in the list" do
     assert Utility.change(Fixtures.numbers) === Fixtures.numbers_change
   end
 
+  test "change returns nil when the list is empty" do
+    assert Utility.change([]) === nil
+  end
+
+  test "change returns nil when the list is 1 number long" do
+    assert Utility.change([3]) === nil
+  end
+
   test "gain returns the gain in the list" do
     assert Utility.gain(Fixtures.numbers) === Fixtures.numbers_gain
+  end
+
+  test "gain returns nil when the list is empty" do
+    assert Utility.gain([]) === nil
+  end
+
+  test "gain returns nil when the list is 1 number long" do
+    assert Utility.gain([3]) === nil
   end
 
   test "loss returns the loss in the list" do
     assert Utility.loss(Fixtures.numbers) === Fixtures.numbers_loss
   end
+  
+  test "loss returns nil when the list is empty" do
+    assert Utility.loss([]) === nil
+  end
+
+  test "loss returns nil when the list is 1 number long" do
+    assert Utility.loss([3]) === nil
+  end
 
   test "occur returns a map with element occurance of a list" do
     assert Utility.occur(Fixtures.numbers) === Fixtures.numbers_occur
+  end
+
+  test "occur returns nil when the list is empty" do
+    assert Utility.occur([]) === nil
   end
 end

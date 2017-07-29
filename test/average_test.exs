@@ -22,15 +22,47 @@ defmodule Talib.AverageTest do
     assert Average.mean(Fixtures.numbers) === Fixtures.numbers_mean
   end
 
+  test "mean returns nil when the list is empty" do
+    assert Average.mean([]) === nil
+  end
+
+  test "mean returns the number when the list is 1 number long" do
+    assert Average.mean([3]) == 3
+  end
+
   test "median returns the median" do
     assert Average.median(Fixtures.numbers) === Fixtures.numbers_median
+  end
+
+  test "median returns nil when the list is empty" do
+    assert Average.median([]) === nil
+  end
+
+  test "median returns the number when the list is 1 number long" do
+    assert Average.median([3]) == 3
   end
 
   test "mode returns the mode" do
     assert Average.mode(Fixtures.numbers) === Fixtures.numbers_mode
   end
 
+  test "mode returns nil when the list is empty" do
+    assert Average.mode([]) === nil
+  end
+
+  test "mode returns the number when the list is 1 number long" do
+    assert Average.mode([3]) == 3
+  end
+
   test "midrange returns the midrange" do
     assert Average.midrange(Fixtures.numbers) === Fixtures.numbers_midrange
+  end
+
+  test "midrange returns nil when the list is empty" do
+    assert Average.midrange([]) === nil
+  end
+
+  test "midrange returns the number when the list is 1 number long" do
+    assert Average.midrange([3]) == 3
   end
 end

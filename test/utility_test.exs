@@ -34,6 +34,14 @@ defmodule Talib.UtilityTest do
 
     def numbers_high, do: 100
     def numbers_low, do: 6
+
+    def numbers_occur do
+      %{
+        89 => 2, 77 => 1, 53 => 2, 64 => 1, 78 => 1, 67 => 1, 30 => 2,
+        6 => 1, 24 => 1, 46 => 1, 100 => 1, 48 => 1, 34 => 1, 69 => 1,
+        40 => 1, 44 => 1, 66 => 1
+      }
+    end
   end
 
   test "high returns the highest value" do
@@ -54,5 +62,9 @@ defmodule Talib.UtilityTest do
 
   test "loss returns the loss in the list" do
     assert Utility.loss(Fixtures.numbers) === Fixtures.numbers_loss
+  end
+
+  test "occur returns a map with element occurance of a list" do
+    assert Utility.occur(Fixtures.numbers) === Fixtures.numbers_occur
   end
 end

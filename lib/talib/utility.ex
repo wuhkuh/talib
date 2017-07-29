@@ -1,35 +1,36 @@
 defmodule Talib.Utility do
   @moduledoc ~S"""
-  Utility functions that are used in the calculation of indicators and oscillators.
+  Module containing utility functions, used in the calculation of indicators and oscillators.
   """
 
   @doc """
   Gets the highest number in the list.
   """
+  def high([]), do: nil
   def high(list) when is_list(list), do: Enum.max(list)
-  def high(number) when is_number(number), do: number
 
   @doc """
   Gets the lowest number in the list.
   """
+  def low([]), do: nil
   def low(list) when is_list(list), do: Enum.min(list)
-  def low(number) when is_number(number), do: number
 
   @doc """
   Gets the gain in the list.
   """
+  def gain([]), do: nil
   def gain(list) when is_list(list), do: change(list, 1)
-  def gain(number) when is_number(number), do: number
 
   @doc """
   Gets the loss in the list.
   """
+  def loss([]), do: nil
   def loss(list) when is_list(list), do: change(list, -1)
-  def loss(number) when is_number(number), do: number
 
   @doc """
   Gets the change in the list.
   """
+  def change([]), do: nil
   def change(list, direction \\ 0) do
     [_, result] = Enum.reduce(list, [nil, []], fn(element, acc) ->
       [last_element, total] = acc
@@ -48,5 +49,13 @@ defmodule Talib.Utility do
     end)
 
     result
+  end
+
+  @doc """
+  Creates a map with the amount of times each element of list is present in the list.
+  """
+  def occur([]), do: nil
+  def occur(list) when is_list(list) do
+    Enum.reduce(list, %{}, fn(tag, acc) -> Map.update(acc, tag, 1, &(&1 + 1)) end)
   end
 end

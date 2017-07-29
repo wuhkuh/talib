@@ -7,8 +7,15 @@ It's currently a work in progress; updates will be pushed on a regular basis. It
 ## Features
 
 - Utility
-  - High
-  - Low
   - Change
   - Gain
+  - High
   - Loss
+  - Low
+  - Occur
+
+- Average
+  - Mean
+  - Median
+  - Midrange
+  - Mode

@@ -1,4 +1,4 @@
-# Technical Analysis for Elixir
+# Technical Analysis for Elixir [![Build Status](https://travis-ci.org/wuhkuh/talib.svg?branch=master)](https://travis-ci.org/wuhkuh/talib)
 
 Talib provides easy access to indicators, oscillators and several utility functions.
 

@@ -2,18 +2,22 @@ defmodule Talib.Average do
   alias Talib.Utility
 
   @moduledoc ~S"""
-  Module containing average functions, such as the mean, mode and median.
+  Module containing average functions, such as the mean,
+  mode and median.
   """
 
   @doc """
   Gets the mean of a list.
   """
+  @spec mean([integer] | [float]) :: integer | float
   def mean([]), do: nil
+  def mean([n]), do: n
   def mean(list) when is_list(list), do: Enum.sum(list) / length(list)
 
   @doc """
   Gets the median of a list.
   """
+  @spec median([integer] | [float]) :: integer | float
   def median([]), do: nil
   def median([n]), do: n
   def median(list) when is_list(list) do
@@ -35,7 +39,9 @@ defmodule Talib.Average do
   @doc """
   Gets the most frequently occuring value in a list.
   """
+  @spec mode([integer] | [float]) :: integer | float
   def mode([]), do: nil
+  def mode([n]), do: n
   def mode(list) when is_list(list) do
     list
     |> Utility.occur
@@ -45,15 +51,18 @@ defmodule Talib.Average do
   @doc """
   Gets the midrange of a list.
   """
+  @spec midrange([integer] | [float]) :: integer | float
   def midrange([]), do: nil
+  def midrange([n]), do: n
   def midrange(list) when is_list(list) do
-    max = list |> Utility.high
-    min = list |> Utility.low
+    max = list |> Enum.max
+    min = list |> Enum.min
 
     (max + min) / 2
   end
 
   @doc false
+  @spec map_max(map) :: integer | float | [integer] | [float]
   defp map_max(map) when is_map(map) do
     max = map
     |> Map.values

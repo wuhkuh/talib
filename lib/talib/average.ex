@@ -54,7 +54,7 @@ defmodule Talib.Average do
   @spec midrange([integer] | [float]) :: integer | float
   def midrange([]), do: nil
   def midrange([n]), do: n
-  def midrange(list) when is_list(list) do
+  def midrange([_ | _] = list) do
     max = list |> Enum.max
     min = list |> Enum.min
 
@@ -70,15 +70,15 @@ defmodule Talib.Average do
 
     # Create array of maximums
     # Add key to maximums array
-    maxes = Enum.reduce(map, [], fn({ key, value }, acc) ->
+    maxes = Enum.reduce(map, [], fn({key, value}, acc) ->
       case value do
         ^max -> [key | acc]
         _ -> acc
       end
     end)
 
-    # Support multiple maximums %{ a: 3, b: 3 } => [:a, :b]
-    # Or single maximum %{ a: 3, b:2 } => [:a]
+    # Support multiple maximums %{a: 3, b: 3} => [:a, :b]
+    # Or single maximum %{a: 3, b: 2} => [:a]
     case maxes do
       [n] -> n
       [_ | _] = array -> Enum.reverse(array)

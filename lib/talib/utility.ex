@@ -10,7 +10,7 @@ defmodule Talib.Utility do
   @spec high([integer] | [float]) :: integer | float
   def high([]), do: nil
   def high([n]), do: n
-  def high(list) when is_list(list), do: Enum.max(list)
+  def high([_ | _] = list), do: Enum.max(list)
 
   @doc """
   Gets the lowest number in the list.
@@ -18,7 +18,7 @@ defmodule Talib.Utility do
   @spec low([integer] | [float]) :: integer | float
   def low([]), do: nil
   def low([n]), do: n
-  def low(list) when is_list(list), do: Enum.min(list)
+  def low([_ | _] = list), do: Enum.min(list)
 
   @doc """
   Gets the gain in the list.
@@ -26,7 +26,7 @@ defmodule Talib.Utility do
   @spec gain([integer] | [float]) :: integer | float
   def gain([]), do: nil
   def gain([_]), do: nil
-  def gain(list) when is_list(list), do: change(list, 1)
+  def gain([_ | _] = list), do: change(list, 1)
 
   @doc """
   Gets the loss in the list.
@@ -34,7 +34,7 @@ defmodule Talib.Utility do
   @spec loss([integer] | [float]) :: integer | float
   def loss([]), do: nil
   def loss([_]), do: nil
-  def loss(list) when is_list(list), do: change(list, -1)
+  def loss([_ | _] = list), do: change(list, -1)
 
   @doc """
   Gets the change in the list.
@@ -43,17 +43,17 @@ defmodule Talib.Utility do
   def change([]), do: nil
   def change([_]), do: nil
   def change(list, direction \\ 0) do
-    [_, result] = Enum.reduce(list, [nil, []], fn(element, acc) ->
-      [last_element, total] = acc
+    [_, result] = Enum.reduce(list, [nil, []], fn(element, [last_el, total]) ->
   
+      # Check differences between last element and current element
       cond do
-        (last_element === nil) ->
+        (last_el === nil) ->
           [element, total]
-        ((direction === 1 && element - last_element > 0) ||
-        (direction === -1 && element - last_element < 0)) ->
-          [element, total ++ [abs(element - last_element)]]
+        ((direction === 1 && element - last_el > 0) ||
+        (direction === -1 && element - last_el < 0)) ->
+          [element, total ++ [abs(element - last_el)]]
         (direction === 0) ->
-          [element, total ++ [element - last_element]]
+          [element, total ++ [element - last_el]]
         true ->
           [element, total ++ [0]]
       end
@@ -68,7 +68,7 @@ defmodule Talib.Utility do
   @spec occur([integer] | [float]) :: map()
   def occur([]), do: nil
   def occur([n]), do: %{n => 1}
-  def occur(list) when is_list(list) do
+  def occur([_ | _] = list) do
     Enum.reduce(list, %{}, fn(tag, acc) -> Map.update(acc, tag, 1, &(&1 + 1)) end)
   end
 end

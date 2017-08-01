@@ -8,16 +8,40 @@ defmodule Talib.Average do
 
   @doc """
   Gets the mean of a list.
+
+  Version: 1.0  
+  Source: http://mathworld.wolfram.com/ArithmeticMean.html  
+  Audited by:
+
+  | Name         | Title             |
+  | :----------- | :---------------- |
+  |              |                   |
+
   """
-  @spec mean([integer] | [float]) :: integer | float
+
+  @spec mean([]) :: nil
+  @spec mean([number, ...]) :: number
   def mean([]), do: nil
   def mean([n]), do: n
-  def mean(list) when is_list(list), do: Enum.sum(list) / length(list)
+  def mean(list) when is_list(list) do
+    Enum.sum(list) / length(list)
+  end
 
   @doc """
   Gets the median of a list.
+
+  Version: 1.0  
+  Source: http://mathworld.wolfram.com/StatisticalMedian.html  
+  Audited by:
+
+  | Name         | Title             |
+  | :----------- | :---------------- |
+  |              |                   |
+
   """
-  @spec median([integer] | [float]) :: integer | float
+
+  @spec median([]) :: nil
+  @spec median([number, ...]) :: number
   def median([]), do: nil
   def median([n]), do: n
   def median(list) when is_list(list) do
@@ -28,7 +52,7 @@ defmodule Talib.Average do
     # 0 is even, 1 is odd
     case list |> length |> rem(2) do
       0 ->
-        {_, [med1 | [med2 | _]]} = Enum.split(list, midpoint - 1)
+        {_, [med1, med2 | _]} = Enum.split(list, midpoint - 1)
         (med1 + med2) / 2
       1 ->
         {_, [median | _]} = Enum.split(list, midpoint)
@@ -37,9 +61,44 @@ defmodule Talib.Average do
   end
 
   @doc """
-  Gets the most frequently occuring value in a list.
+  Gets the midrange of a list.
+
+  Version: 1.0  
+  Source: http://mathworld.wolfram.com/Midrange.html  
+  Audited by:
+
+  | Name         | Title             |
+  | :----------- | :---------------- |
+  |              |                   |
+
   """
-  @spec mode([integer] | [float]) :: integer | float
+
+  @spec midrange([]) :: nil
+  @spec midrange([number, ...]) :: number
+  def midrange([]), do: nil
+  def midrange([n]), do: n
+  def midrange(list) when is_list(list) do
+    max = list |> Enum.max
+    min = list |> Enum.min
+
+    (max + min) / 2
+  end
+
+  @doc """
+  Gets the most frequently occuring value in a list.
+
+  Version: 1.0  
+  Source: http://mathworld.wolfram.com/Mode.html  
+  Audited by:
+
+  | Name         | Title             |
+  | :----------- | :---------------- |
+  |              |                   |
+
+  """
+
+  @spec mode([]) :: nil
+  @spec mode([number, ...]) :: number
   def mode([]), do: nil
   def mode([n]), do: n
   def mode(list) when is_list(list) do
@@ -48,21 +107,8 @@ defmodule Talib.Average do
     |> map_max
   end
 
-  @doc """
-  Gets the midrange of a list.
-  """
-  @spec midrange([integer] | [float]) :: integer | float
-  def midrange([]), do: nil
-  def midrange([n]), do: n
-  def midrange([_ | _] = list) do
-    max = list |> Enum.max
-    min = list |> Enum.min
-
-    (max + min) / 2
-  end
-
   @doc false
-  @spec map_max(map) :: integer | float | [integer] | [float]
+  @spec map_max(map()) :: number | [number, ...]
   defp map_max(map) when is_map(map) do
     max = map
     |> Map.values

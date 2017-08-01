@@ -19,7 +19,7 @@ defmodule Talib.AverageTest do
   end
 
   test "mean returns the mean" do
-    assert Average.mean(Fixtures.numbers) === Fixtures.numbers_mean
+    assert Average.mean(Fixtures.numbers) == Fixtures.numbers_mean
   end
 
   test "mean returns nil when the list is empty" do
@@ -31,7 +31,7 @@ defmodule Talib.AverageTest do
   end
 
   test "median returns the median" do
-    assert Average.median(Fixtures.numbers) === Fixtures.numbers_median
+    assert Average.median(Fixtures.numbers) == Fixtures.numbers_median
   end
 
   test "median returns nil when the list is empty" do
@@ -43,7 +43,7 @@ defmodule Talib.AverageTest do
   end
 
   test "mode returns the mode" do
-    assert Average.mode(Fixtures.numbers) === Fixtures.numbers_mode
+    assert Average.mode(Fixtures.numbers) == Fixtures.numbers_mode
   end
 
   test "mode returns nil when the list is empty" do
@@ -55,7 +55,7 @@ defmodule Talib.AverageTest do
   end
 
   test "midrange returns the midrange" do
-    assert Average.midrange(Fixtures.numbers) === Fixtures.numbers_midrange
+    assert Average.midrange(Fixtures.numbers) == Fixtures.numbers_midrange
   end
 
   test "midrange returns nil when the list is empty" do

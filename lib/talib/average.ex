@@ -19,8 +19,7 @@ defmodule Talib.Average do
 
   """
 
-  @spec mean([]) :: nil
-  @spec mean([number, ...]) :: number
+  @spec mean([number]) :: number | nil
   def mean([]), do: nil
   def mean([n]), do: n
   def mean(list) when is_list(list) do
@@ -40,8 +39,7 @@ defmodule Talib.Average do
 
   """
 
-  @spec median([]) :: nil
-  @spec median([number, ...]) :: number
+  @spec median([number]) :: number | nil
   def median([]), do: nil
   def median([n]), do: n
   def median(list) when is_list(list) do
@@ -73,8 +71,7 @@ defmodule Talib.Average do
 
   """
 
-  @spec midrange([]) :: nil
-  @spec midrange([number, ...]) :: number
+  @spec midrange([number]) :: number | nil
   def midrange([]), do: nil
   def midrange([n]), do: n
   def midrange(list) when is_list(list) do
@@ -97,8 +94,7 @@ defmodule Talib.Average do
 
   """
 
-  @spec mode([]) :: nil
-  @spec mode([number, ...]) :: number
+  @spec mode([number]) :: number | nil
   def mode([]), do: nil
   def mode([n]), do: n
   def mode(list) when is_list(list) do

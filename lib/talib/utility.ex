@@ -16,9 +16,7 @@ defmodule Talib.Utility do
 
   """
 
-  @spec change([]) :: nil
-  @spec change([number, ...]) :: [number, ...] | number | nil
-  @spec change([number, ...], integer) :: [number, ...] | number
+  @spec change([number], integer) :: [number, ...] | number | nil
   def change([]), do: nil
   def change([_]), do: nil
   def change(list, direction \\ 0) when is_list(list) do
@@ -56,8 +54,7 @@ defmodule Talib.Utility do
 
   """
 
-  @spec gain([]) :: nil
-  @spec gain([number, ...]) :: [number, ...] | number | nil
+  @spec gain([number]) :: [number, ...] | number | nil
   def gain([]), do: nil
   def gain([_]), do: nil
   def gain(list) when is_list(list), do: change(list, 1)
@@ -74,8 +71,7 @@ defmodule Talib.Utility do
 
   """
 
-  @spec high([]) :: nil
-  @spec high([number, ...]) :: number
+  @spec high([number]) :: number | nil
   def high([]), do: nil
   def high([n]), do: n
   def high(list) when is_list(list), do: Enum.max(list)
@@ -92,8 +88,7 @@ defmodule Talib.Utility do
 
   """
 
-  @spec loss([]) :: nil
-  @spec loss([number, ...]) :: [number, ...] | number | nil
+  @spec loss([number]) :: [number, ...] | number | nil
   def loss([]), do: nil
   def loss([_]), do: nil
   def loss(list) when is_list(list), do: change(list, -1)
@@ -110,8 +105,7 @@ defmodule Talib.Utility do
 
   """
 
-  @spec low([]) :: nil
-  @spec low([number, ...]) :: number
+  @spec low([number]) :: number | nil
   def low([]), do: nil
   def low([n]), do: n
   def low(list) when is_list(list), do: Enum.min(list)
@@ -129,8 +123,7 @@ defmodule Talib.Utility do
 
   """
 
-  @spec occur([]) :: nil
-  @spec occur([number, ...]) :: map()
+  @spec occur([number]) :: map() | nil
   def occur([]), do: nil
   def occur([n]), do: %{n => 1}
   def occur(list) when is_list(list) do

@@ -43,30 +43,8 @@ defmodule Talib.UtilityTest do
       }
     end
   end
-
-  test "high returns the highest value" do
-    assert Utility.high(Fixtures.numbers) === Fixtures.numbers_high
-  end
-
-  test "high returns nil when the list is empty" do
-    assert Utility.high([]) === nil
-  end
-
-  test "high returns the number when the list is 1 number long" do
-    assert Utility.high([3]) == 3
-  end
-
-  test "low returns the lowest value" do
-    assert Utility.low(Fixtures.numbers) === Fixtures.numbers_low
-  end
-
-  test "low returns nil when the list is empty" do
-    assert Utility.low([]) === nil
-  end
-
-  test "low returns the number when the list is 1 number long" do
-    assert Utility.low([3]) == 3
-  end
+  
+  # Change
 
   test "change returns the change in the list" do
     assert Utility.change(Fixtures.numbers) === Fixtures.numbers_change
@@ -80,6 +58,8 @@ defmodule Talib.UtilityTest do
     assert Utility.change([3]) === nil
   end
 
+  # Gain
+
   test "gain returns the gain in the list" do
     assert Utility.gain(Fixtures.numbers) === Fixtures.numbers_gain
   end
@@ -92,6 +72,22 @@ defmodule Talib.UtilityTest do
     assert Utility.gain([3]) === nil
   end
 
+  # High
+
+  test "high returns the highest value" do
+    assert Utility.high(Fixtures.numbers) === Fixtures.numbers_high
+  end
+
+  test "high returns nil when the list is empty" do
+    assert Utility.high([]) === nil
+  end
+
+  test "high returns the number when the list is 1 number long" do
+    assert Utility.high([3]) == 3
+  end
+
+  # Loss
+
   test "loss returns the loss in the list" do
     assert Utility.loss(Fixtures.numbers) === Fixtures.numbers_loss
   end
@@ -103,6 +99,22 @@ defmodule Talib.UtilityTest do
   test "loss returns nil when the list is 1 number long" do
     assert Utility.loss([3]) === nil
   end
+
+  # Low
+
+  test "low returns the lowest value" do
+    assert Utility.low(Fixtures.numbers) === Fixtures.numbers_low
+  end
+
+  test "low returns nil when the list is empty" do
+    assert Utility.low([]) === nil
+  end
+
+  test "low returns the number when the list is 1 number long" do
+    assert Utility.low([3]) == 3
+  end
+
+  # Occur
 
   test "occur returns a map with element occurance of a list" do
     assert Utility.occur(Fixtures.numbers) === Fixtures.numbers_occur

@@ -18,6 +18,8 @@ defmodule Talib.AverageTest do
     def numbers_midrange, do: (6 + 100) / 2
   end
 
+  # Mean
+
   test "mean returns the mean" do
     assert Average.mean(Fixtures.numbers) == Fixtures.numbers_mean
   end
@@ -29,6 +31,8 @@ defmodule Talib.AverageTest do
   test "mean returns the number when the list is 1 number long" do
     assert Average.mean([3]) == 3
   end
+
+  # Median
 
   test "median returns the median" do
     assert Average.median(Fixtures.numbers) == Fixtures.numbers_median
@@ -42,17 +46,7 @@ defmodule Talib.AverageTest do
     assert Average.median([3]) == 3
   end
 
-  test "mode returns the mode" do
-    assert Average.mode(Fixtures.numbers) == Fixtures.numbers_mode
-  end
-
-  test "mode returns nil when the list is empty" do
-    assert Average.mode([]) === nil
-  end
-
-  test "mode returns the number when the list is 1 number long" do
-    assert Average.mode([3]) == 3
-  end
+  # Midrange
 
   test "midrange returns the midrange" do
     assert Average.midrange(Fixtures.numbers) == Fixtures.numbers_midrange
@@ -64,5 +58,19 @@ defmodule Talib.AverageTest do
 
   test "midrange returns the number when the list is 1 number long" do
     assert Average.midrange([3]) == 3
+  end
+
+  # Mode
+
+  test "mode returns the mode" do
+    assert Average.mode(Fixtures.numbers) == Fixtures.numbers_mode
+  end
+
+  test "mode returns nil when the list is empty" do
+    assert Average.mode([]) === nil
+  end
+
+  test "mode returns the number when the list is 1 number long" do
+    assert Average.mode([3]) == 3
   end
 end

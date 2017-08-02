@@ -19,8 +19,8 @@ defmodule Talib.Utility do
   @spec change([number], integer) :: [number, ...] | number | nil
   def change([]), do: nil
   def change([_]), do: nil
-  def change(list, direction \\ 0) when is_list(list) do
-    [_, result] = Enum.reduce(list, [nil, []], fn(element, [last_el, total]) ->
+  def change(data, direction \\ 0) when is_list(data) do
+    [_, result] = Enum.reduce(data, [nil, []], fn(element, [last_el, total]) ->
 
       # Check differences between last element and current element
       cond do
@@ -57,7 +57,7 @@ defmodule Talib.Utility do
   @spec gain([number]) :: [number, ...] | number | nil
   def gain([]), do: nil
   def gain([_]), do: nil
-  def gain(list) when is_list(list), do: change(list, 1)
+  def gain(data) when is_list(data), do: change(data, 1)
 
   @doc """
   Gets the highest number in the list.
@@ -74,7 +74,7 @@ defmodule Talib.Utility do
   @spec high([number]) :: number | nil
   def high([]), do: nil
   def high([n]), do: n
-  def high(list) when is_list(list), do: Enum.max(list)
+  def high(data) when is_list(data), do: Enum.max(data)
 
   @doc """
   Gets the loss in the list.
@@ -91,7 +91,7 @@ defmodule Talib.Utility do
   @spec loss([number]) :: [number, ...] | number | nil
   def loss([]), do: nil
   def loss([_]), do: nil
-  def loss(list) when is_list(list), do: change(list, -1)
+  def loss(data) when is_list(data), do: change(data, -1)
 
   @doc """
   Gets the lowest number in the list.
@@ -108,10 +108,10 @@ defmodule Talib.Utility do
   @spec low([number]) :: number | nil
   def low([]), do: nil
   def low([n]), do: n
-  def low(list) when is_list(list), do: Enum.min(list)
+  def low(data) when is_list(data), do: Enum.min(data)
 
   @doc """
-  Creates a map with the amount of times each element of
+  Creates a map with the amount of times each element of a
   list is present in the list.
 
   Version: 1.0  
@@ -126,8 +126,8 @@ defmodule Talib.Utility do
   @spec occur([number]) :: map() | nil
   def occur([]), do: nil
   def occur([n]), do: %{n => 1}
-  def occur(list) when is_list(list) do
-    Enum.reduce(list, %{}, fn(tag, acc) ->
+  def occur(data) when is_list(data) do
+    Enum.reduce(data, %{}, fn(tag, acc) ->
       Map.update(acc, tag, 1, &(&1 + 1))
     end)
   end

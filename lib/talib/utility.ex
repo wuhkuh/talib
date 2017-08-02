@@ -16,9 +16,9 @@ defmodule Talib.Utility do
 
   """
 
-  @spec change([]) :: number | nil
-  @spec change([number, ...]) :: [number] | nil
-  @spec change([number, ...], integer) :: [number]
+  @spec change([]) :: nil
+  @spec change([number, ...]) :: [number, ...] | number | nil
+  @spec change([number, ...], integer) :: [number, ...] | number
   def change([]), do: nil
   def change([_]), do: nil
   def change(list, direction \\ 0) when is_list(list) do
@@ -38,7 +38,10 @@ defmodule Talib.Utility do
       end
     end)
 
-    result
+    case result do
+      [number] -> number
+      _ -> result
+    end
   end
 
   @doc """
@@ -53,8 +56,8 @@ defmodule Talib.Utility do
 
   """
 
-  @spec gain([]) :: number | nil
-  @spec gain([number, ...]) :: [number] | nil
+  @spec gain([]) :: nil
+  @spec gain([number, ...]) :: [number, ...] | number | nil
   def gain([]), do: nil
   def gain([_]), do: nil
   def gain(list) when is_list(list), do: change(list, 1)
@@ -89,8 +92,8 @@ defmodule Talib.Utility do
 
   """
 
-  @spec loss([]) :: number | nil
-  @spec loss([number, ...]) :: [number] | nil
+  @spec loss([]) :: nil
+  @spec loss([number, ...]) :: [number, ...] | number | nil
   def loss([]), do: nil
   def loss([_]), do: nil
   def loss(list) when is_list(list), do: change(list, -1)

@@ -1,3 +1,4 @@
+# TODO: Weighted Moving Average
 defmodule Talib.MovingAverage do
   @moduledoc ~S"""
   Module containing moving average functions, such as the
@@ -21,23 +22,22 @@ defmodule Talib.MovingAverage do
   def cumulative([]), do: nil
   def cumulative(data), do: cumulative(0, 0, data)
 
-  @spec cumulative({integer, number}, [number]) :: [{integer, number}, ...] | nil
+  @spec cumulative({integer, number}, [number]) ::
+  [{integer, number}, ...] |
+  nil
   def cumulative({weight, average}, data), do: cumulative(weight, average, data)
 
   @spec cumulative(integer, number, [number]) :: [{integer, number}, ...] | nil
   def cumulative(0, _average, []), do: nil
-  def cumulative(weight, average, [])
-      when is_integer(weight) and is_number(average) do
-    [{weight, average}]
-  end
-
   def cumulative(weight, average, data) do
     calculate_cumulative(weight, average, data)
   end
 
   @spec calculate_cumulative(integer, number, [number], [{integer, number}]) ::
         [{integer, number}, ...]
-  defp calculate_cumulative(weight, average, [hd | tl], results \\ [])
+  defp calculate_cumulative(weight, average, data, results \\ [])
+  defp calculate_cumulative(weight, average, [], []), do: [{weight, average}]
+  defp calculate_cumulative(weight, average, [hd | tl], results)
       when is_integer(weight) do
     new_weight = weight + 1
     new_average = (average * weight + hd) / new_weight
@@ -45,7 +45,8 @@ defmodule Talib.MovingAverage do
 
     case tl do
       [_ | _] ->
-        calculate_cumulative(new_weight, new_average, tl, results ++ [{new_weight, new_average}])
+        new_results = results ++ [{new_weight, new_average}]
+        calculate_cumulative(new_weight, new_average, tl, new_results)
       [] ->
         results ++ [{new_weight, new_average}]
     end

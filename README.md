@@ -21,6 +21,11 @@ It's currently a work in progress; updates will be pushed on a regular basis.
   - Midrange
   - Mode
 
+- Moving Average
+  - Cumulative
+  - Exponential
+  - Simple
+
 ## Why?
 
 As I was scanning the supported functions of the widely-used library 'TA-Lib',
@@ -29,7 +34,7 @@ markets and indicators like the McClellan oscillator. Besides that, the project
 seems abandoned as there have been no releases since 2007.
 
 The goal of this library is to have most indicators built-in, where missing
-indicators can be suggested through issues and pull requests.
+indicators can be suggested through the issue tracker and pull requests.
 
 If there's enough demand as well as developer time, the functions will be ported
 to a language that will process them faster than Elixir currently can.

@@ -57,7 +57,7 @@ ways.
    Updating the functions to a more readable state, or a state with better
    performance.
 
-3. Suggesting 
+3. Suggesting  
    Suggesting missing indicators or functions.  
    If you're willing to do this, please send a draft with expected inputs and
    outputs of the function.

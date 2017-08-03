@@ -2,7 +2,7 @@
 
 If you wonder how you could help out, there are several ways to do so:
 
-### 1. Auditing of the functions  
+### 1. Auditing the functions  
 
 Every function in this library is critical for the end-user.  
 The end-user must be able to trust us when it comes down to maintaining the
@@ -30,7 +30,7 @@ Please keep the style consistent.
 Readability is just as important as efficient code, if not more important
 (due to better maintainability)!
 
-### 3. Suggesting of new functions
+### 3. Suggesting new functions
 
 It is possible that this library lacks a certain function, which could just be
 the one you want to implement somewhere.  

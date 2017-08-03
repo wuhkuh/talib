@@ -39,19 +39,28 @@ indicators can be suggested through the issue tracker and pull requests.
 If there's enough demand as well as developer time, the functions will be ported
 to a language that will process them faster than Elixir currently can.
 
+## Changelog
+
+This repository uses [GitHub releases](https://github.com/wuhkuh/talib/releases)
+to manage changes in the codebase.
+
 ## Contributing
 
-To ensure correct functioning of this library, you could help out in several ways.
+To ensure correct functioning of this library, you could help out in several
+ways.
 
 1. Auditing  
-   Verifying the inputs and outputs of a given function and the corresponding unit tests.
+   Verifying the inputs and outputs of a given function and the corresponding
+   unit tests.
 
 2. Refactoring  
-   Updating the functions to a more readable state, or a state with better performance.
+   Updating the functions to a more readable state, or a state with better
+   performance.
 
-3. Suggestions  
+3. Suggesting 
    Suggesting missing indicators or functions.  
-   If you're willing to do this, please send a draft with expected inputs and outputs of the function.
+   If you're willing to do this, please send a draft with expected inputs and
+   outputs of the function.
 
 For more information, view [CONTRIBUTING.md](CONTRIBUTING.md). Thanks!
 

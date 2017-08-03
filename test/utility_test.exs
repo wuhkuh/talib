@@ -1,8 +1,8 @@
 defmodule Talib.UtilityTest do
   use ExUnit.Case
-  doctest Talib.Utility
-
   alias Talib.Utility
+
+  doctest Talib.Utility
 
   defmodule Fixtures do
     def numbers do
@@ -25,6 +25,7 @@ defmodule Talib.UtilityTest do
         0, 0, 70, 0, 0, 35, 0, 4, 22, 23
       ]
     end
+
     def numbers_loss do
       [
         12, 24, 0, 0, 11, 37, 24, 0, 0,

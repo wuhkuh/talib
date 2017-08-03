@@ -1,8 +1,8 @@
 defmodule Talib.AverageTest do
   use ExUnit.Case
-  doctest Talib.Average
-
   alias Talib.Average
+
+  doctest Talib.Average
 
   defmodule Fixtures do
     def numbers do

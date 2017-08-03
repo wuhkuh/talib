@@ -1,8 +1,8 @@
 defmodule Talib.MovingAverageTest do
   use ExUnit.Case
-  doctest Talib.MovingAverage
-
   alias Talib.MovingAverage
+
+  doctest Talib.MovingAverage
 
   defmodule Fixtures do
     def numbers do

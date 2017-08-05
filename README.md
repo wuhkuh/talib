@@ -27,6 +27,9 @@ It's currently a work in progress; updates will be pushed on a regular basis.
   - Simple
   - Smoothed
 
+- Indicator
+  - RSI (Relative Strength Index)
+
 ## Why?
 
 As I was scanning the supported functions of the widely-used library 'TA-Lib',

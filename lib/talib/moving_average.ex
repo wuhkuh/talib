@@ -66,29 +66,34 @@ defmodule Talib.MovingAverage do
   """
 
   @spec exponential([number], integer) :: [number] | nil
-  def exponential([], _period), do: nil
   def exponential(data, period), do: calculate_exponential(data, period)
 
   @spec calculate_exponential([number], integer, [number]) :: [number]
-  defp calculate_exponential([hd | tl], period, results \\ [])
-      when is_integer(period) do
-    previous_avg =
-      case results do
-        [] ->
-          hd
-        [_ | _] ->
-          [result] = Enum.take(results, -1)
-          result
-      end
+  defp calculate_exponential(data, period, results \\ [])
+  defp calculate_exponential(_data, 0, _results), do: nil
+  defp calculate_exponential([], _period, []), do: nil
+  defp calculate_exponential(data, period, []) when length(data) < period,
+    do: nil
 
+  defp calculate_exponential([hd | tl], period, []) when is_integer(period) do
+    # Initiation
     new_weight = 2 / (period + 1)
-    new_average = hd * new_weight + previous_avg * (1 - new_weight)
-
-    case tl do
-      [_ | _] -> calculate_exponential(tl, period, results ++ [new_average])
-      [] -> results ++ [new_average]
-    end
+    new_average = hd * new_weight + hd * (1 - new_weight)
+    
+    calculate_exponential(tl, period, [new_average])
   end
+
+  defp calculate_exponential([hd | tl], period, [_ | _] = results) do
+    # Propagation
+    [previous_average] = Enum.take(results, -1)
+    new_weight = 2 / (period + 1)
+    new_average = hd * new_weight + previous_average * (1 - new_weight)
+    
+    calculate_exponential(tl, period, results ++ [new_average])
+  end
+  
+  defp calculate_exponential([], period, results), do: results
+    # Termination
 
   @doc """
   Gets the simple moving average of a list.
@@ -108,6 +113,7 @@ defmodule Talib.MovingAverage do
 
   @spec calculate_simple([number], integer, [number]) :: [number, ...] | nil
   defp calculate_simple(_data, _period, results \\ [])
+  defp calculate_simple(_data, 0, _results), do: nil
   defp calculate_simple([], _period, []), do: nil
   defp calculate_simple([], _period, results), do: results
   defp calculate_simple([_hd | tl] = data, period, results)
@@ -115,6 +121,8 @@ defmodule Talib.MovingAverage do
     data_length = length(data)
 
     cond do
+      data_length < period && results === [] ->
+        nil
       data_length < period ->
         results
       data_length >= period ->
@@ -141,13 +149,13 @@ defmodule Talib.MovingAverage do
   """
 
   @spec smoothed([number], integer) :: [number, ...] | nil
-  def smoothed([], _period), do: nil
   def smoothed(data, period), do: calculate_smoothed(data, period)
 
   @spec calculate_smoothed([number], integer, [number]) :: [number, ...] | nil
   defp calculate_smoothed(data, period, results \\ [])
   defp calculate_smoothed(_data, _period, nil), do: nil
-  defp calculate_smoothed(data, period, []) do
+  defp calculate_smoothed([], _period, []), do: nil
+  defp calculate_smoothed(data, period, []) when is_integer(period) do
     # Initiation
     {hd, tl} = Enum.split(data, period)
     result = simple(hd, period)
@@ -157,8 +165,8 @@ defmodule Talib.MovingAverage do
 
   defp calculate_smoothed([hd | tl], period, [_ | _] = results) do
     # Propagation
-    [last_res] = Enum.take(results, -1)
-    result = (last_res * (period - 1) + hd) / period
+    [previous_average] = Enum.take(results, -1)
+    result = (previous_average * (period - 1) + hd) / period
 
     calculate_smoothed(tl, period, results ++ [result])
   end

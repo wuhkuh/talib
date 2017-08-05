@@ -126,4 +126,43 @@ defmodule Talib.MovingAverage do
         calculate_simple(tl, period, results ++ [result])
     end
   end
+
+  @doc """
+  Gets the smoothed moving average of a list.
+
+  Version: 1.0  
+  Source:   
+  Audited by:
+
+  | Name         | Title             |
+  | :----------- | :---------------- |
+  |              |                   |
+
+  """
+
+  @spec smoothed([number], integer) :: [number, ...] | nil
+  def smoothed([], _period), do: nil
+  def smoothed(data, period), do: calculate_smoothed(data, period)
+
+  @spec calculate_smoothed([number], integer, [number]) :: [number, ...] | nil
+  defp calculate_smoothed(data, period, results \\ [])
+  defp calculate_smoothed(_data, _period, nil), do: nil
+  defp calculate_smoothed(data, period, []) do
+    # Initiation
+    {hd, tl} = Enum.split(data, period)
+    result = simple(hd, period)
+
+    calculate_smoothed(tl, period, result)
+  end
+
+  defp calculate_smoothed([hd | tl], period, [_ | _] = results) do
+    # Propagation
+    [last_res] = Enum.take(results, -1)
+    result = (last_res * (period - 1) + hd) / period
+
+    calculate_smoothed(tl, period, results ++ [result])
+  end
+
+  defp calculate_smoothed([], _period, results), do: results
+    # Termination
 end

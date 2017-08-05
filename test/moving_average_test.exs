@@ -7,8 +7,16 @@ defmodule Talib.MovingAverageTest do
   defmodule Fixtures do
     def numbers do
       [
-        89, 77, 53, 64, 78, 67, 30, 6, 24, 53,
-        46, 30, 100, 48, 34, 69, 40, 44, 66, 89
+        89, 77,
+        53, 64,
+        78, 67,
+        30, 06,
+        24, 53,
+        46, 30,
+        100, 48,
+        34, 69,
+        40, 44,
+        66, 89
       ]
     end
 
@@ -24,27 +32,54 @@ defmodule Talib.MovingAverageTest do
 
     def numbers_ema_10 do
       [
-        89.000000000000000, 86.81818181818181,
-        80.669421487603300, 77.63861758076634,
-        77.704323475172460, 75.75808284332292,
-        67.438431417264210, 56.26780752321617,
-        50.400933428085950, 50.87349098661578,
-        49.987401716322000, 46.35332867699072,
-        56.107268917537866, 54.63322002344007,
-        50.881725473723684, 54.17595720577392,
-        51.598510441087750, 50.21696308816270,
-        53.086606163042205, 59.61631413339816
+        89.000000000000000, 86.818181818181810,
+        80.669421487603300, 77.638617580766340,
+        77.704323475172460, 75.758082843322920,
+        67.438431417264210, 56.267807523216170,
+        50.400933428085950, 50.873490986615780,
+        49.987401716322000, 46.353328676990720,
+        56.107268917537866, 54.633220023440070,
+        50.881725473723684, 54.175957205773920,
+        51.598510441087750, 50.216963088162700,
+        53.086606163042205, 59.616314133398160
       ]
     end
 
     def numbers_sma_2 do
       [
-        83, 65, 58.5, 71, 72.5, 48.5, 18, 15, 38.5,
-        49.5, 38, 65, 74, 41, 51.5, 54.5, 42, 55, 77.5
+        83.0, 65.0,
+        58.5, 71.0,
+        72.5, 48.5,
+        18.0, 15.0,
+        38.5, 49.5,
+        38.0, 65.0,
+        74.0, 41.0,
+        51.5, 54.5,
+        42.0, 55.0,
+        77.5
       ]
     end
 
     def numbers_sma_20 do
+      [55.35]
+    end
+
+    def numbers_smma_2 do
+      [
+        83.000000000000000, 68.000000000000000,
+        66.000000000000000, 72.000000000000000,
+        69.500000000000000, 49.750000000000000,
+        27.875000000000000, 25.937500000000000,
+        39.468750000000000, 42.734375000000000,
+        36.367187500000000, 68.183593750000000,
+        58.091796875000000, 46.045898437500000,
+        57.522949218750000, 48.761474609375000,
+        46.380737304687500, 56.190368652343750,
+        72.595184326171880
+      ]
+    end
+
+    def numbers_smma_20 do
       [55.35]
     end
   end
@@ -108,5 +143,29 @@ defmodule Talib.MovingAverageTest do
 
   test "sma returns nil when the list is empty" do
     assert MovingAverage.simple([], 1) === nil
+  end
+
+  # Smoothed Moving Average
+
+  test "smma returns the smoothed moving average with period 20" do
+    assert MovingAverage.smoothed(Fixtures.numbers, 20) ==
+    Fixtures.numbers_smma_20
+  end
+
+  test "smma returns the smoothed moving average with period 2" do
+    assert MovingAverage.smoothed(Fixtures.numbers, 2) ==
+    Fixtures.numbers_smma_2
+  end
+
+  test "smma returns nil when the list is empty" do
+    assert MovingAverage.smoothed([], 1) == nil
+  end
+
+  test "smma returns nil when the period is 0" do
+    assert MovingAverage.smoothed(Fixtures.numbers, 0) == nil
+  end
+
+  test "smma returns nil when the list is smaller than the period" do
+    assert MovingAverage.smoothed(Fixtures.numbers, 21) == nil
   end
 end

@@ -24,6 +24,7 @@ It's currently a work in progress; updates will be pushed on a regular basis.
 - Moving Average
   - Cumulative
   - Exponential
+  - Smoothed
   - Simple
 
 ## Why?

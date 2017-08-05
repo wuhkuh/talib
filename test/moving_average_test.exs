@@ -135,11 +135,11 @@ defmodule Talib.MovingAverageTest do
   end
 
   test "ema returns nil when the list is empty" do
-    assert MovingAverage.exponential([], 10) === nil
+    assert MovingAverage.exponential([], 1) === nil
   end
 
   test "ema returns nil when the period is 0" do
-    assert MovingAverage.exponential(Fixtures.numbers, 1) === nil
+    assert MovingAverage.exponential(Fixtures.numbers, 0) === nil
   end
 
   test "ema returns nil when the list is smaller than the period" do

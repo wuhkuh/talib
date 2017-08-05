@@ -36,10 +36,7 @@ defmodule Talib.Utility do
       end
     end)
 
-    case result do
-      [number] -> number
-      _ -> result
-    end
+    result
   end
 
   @doc """

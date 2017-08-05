@@ -28,6 +28,7 @@ It's currently a work in progress; updates will be pushed on a regular basis.
   - Smoothed
 
 - Indicator
+  - MACD (Moving Average Convergence Divergence)
   - RSI (Relative Strength Index)
 
 ## Why?

@@ -92,7 +92,7 @@ defmodule Talib.MovingAverage do
     calculate_exponential(tl, period, results ++ [new_average])
   end
   
-  defp calculate_exponential([], period, results), do: results
+  defp calculate_exponential([], _period, results), do: results
     # Termination
 
   @doc """

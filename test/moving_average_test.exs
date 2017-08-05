@@ -14,11 +14,11 @@ defmodule Talib.MovingAverageTest do
 
     def numbers_cma do
       [
-        {1, 89 / 01},   {2, 166 / 02},  {3, 219 / 03},   {4, 283 / 04},
-        {5, 361 / 05},  {6, 428 / 06},  {7, 458 / 07},   {8, 464 / 08},
-        {9, 488 / 09},  {10, 541 / 10}, {11, 587 / 11},  {12, 617 / 12},
-        {13, 717 / 13}, {14, 765 / 14}, {15, 799 / 15},  {16, 868 / 16},
-        {17, 908 / 17}, {18, 952 / 18}, {19, 1018 / 19}, {20, 1107 / 20}
+        {89 / 01, 1},   {166 / 02, 2},  {219 / 03, 3},   {283 / 04, 4},
+        {361 / 05, 5},  {428 / 06, 6},  {458 / 07, 7},   {464 / 08, 8},
+        {488 / 09, 9},  {541 / 10, 10}, {587 / 11, 11},  {617 / 12, 12},
+        {717 / 13, 13}, {765 / 14, 14}, {799 / 15, 15},  {868 / 16, 16},
+        {908 / 17, 17}, {952 / 18, 18}, {1018 / 19, 19}, {1107 / 20, 20}
       ]
     end
 
@@ -56,18 +56,18 @@ defmodule Talib.MovingAverageTest do
   end
 
   test "cma returns the cumulative moving average with pre-existing average" do
-    average = {10, 2387 / 100}
+    average = {2387 / 100, 10}
     expected = [
-      {11, 29.790909090909096}, {12, 33.725000000000000},
-      {13, 35.207692307692310}, {14, 37.264285714285720},
-      {15, 39.980000000000004}, {16, 41.668750000000000},
-      {17, 40.982352941176470}, {18, 39.038888888888890},
-      {19, 38.247368421052634}, {20, 38.985000000000000},
-      {21, 39.319047619047620}, {22, 38.895454545454550},
-      {23, 41.552173913043480}, {24, 41.820833333333330},
-      {25, 41.508000000000000}, {26, 42.565384615384616},
-      {27, 42.470370370370375}, {28, 42.525000000000000},
-      {29, 43.334482758620695}, {30, 44.856666666666670}
+      {29.790909090909096, 11}, {33.725000000000000, 12},
+      {35.207692307692310, 13}, {37.264285714285720, 14},
+      {39.980000000000004, 15}, {41.668750000000000, 16},
+      {40.982352941176470, 17}, {39.038888888888890, 18},
+      {38.247368421052634, 19}, {38.985000000000000, 20},
+      {39.319047619047620, 21}, {38.895454545454550, 22},
+      {41.552173913043480, 23}, {41.820833333333330, 24},
+      {41.508000000000000, 25}, {42.565384615384616, 26},
+      {42.470370370370375, 27}, {42.525000000000000, 28},
+      {43.334482758620695, 29}, {44.856666666666670, 30}
     ]
 
     assert MovingAverage.cumulative(average, Fixtures.numbers) == expected
@@ -78,7 +78,7 @@ defmodule Talib.MovingAverageTest do
   end
 
   test "cma returns nil when the list is empty with pre-existing average" do
-    assert MovingAverage.cumulative(1, 2, []) == [{1, 2}]
+    assert MovingAverage.cumulative(2, 1, []) == [{2, 1}]
   end
 
   test "cma returns nil when the list is empty without pre-existing average" do
@@ -88,25 +88,25 @@ defmodule Talib.MovingAverageTest do
   # Exponential Moving Average
 
   test "ema returns the exponential moving average" do
-    assert MovingAverage.exponential(10, Fixtures.numbers) ==
+    assert MovingAverage.exponential(Fixtures.numbers, 10) ==
     Fixtures.numbers_ema_10
   end
 
   test "ema returns nil when the list is empty" do
-    assert MovingAverage.exponential(10, []) === nil
+    assert MovingAverage.exponential([], 10) === nil
   end
 
   # Simple Moving Average
 
   test "sma returns the simple moving average with period 20" do
-    assert MovingAverage.simple(20, Fixtures.numbers) == Fixtures.numbers_sma_20
+    assert MovingAverage.simple(Fixtures.numbers, 20) == Fixtures.numbers_sma_20
   end
 
   test "sma returns the simple moving average with period 2" do
-    assert MovingAverage.simple(2, Fixtures.numbers) == Fixtures.numbers_sma_2
+    assert MovingAverage.simple(Fixtures.numbers, 2) == Fixtures.numbers_sma_2
   end
 
   test "sma returns nil when the list is empty" do
-    assert MovingAverage.simple(1, []) === nil
+    assert MovingAverage.simple([], 1) === nil
   end
 end

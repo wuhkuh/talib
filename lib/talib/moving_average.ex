@@ -131,7 +131,7 @@ defmodule Talib.MovingAverage do
   Gets the smoothed moving average of a list.
 
   Version: 1.0  
-  Source:   
+  Source: http://www2.wealth-lab.com/WL5Wiki/SMMA.ashx  
   Audited by:
 
   | Name         | Title             |

@@ -7,7 +7,7 @@ defmodule Talib.AverageTest do
   defmodule Fixtures do
     def numbers do
       [
-        89, 77, 53, 64, 78, 67, 30, 6, 24, 53,
+        89, 77,  53, 64, 78, 67, 30,  6, 24, 53,
         46, 30, 100, 48, 34, 69, 40, 44, 66, 89
       ]
     end

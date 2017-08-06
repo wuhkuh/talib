@@ -44,84 +44,76 @@ defmodule Talib.UtilityTest do
       }
     end
   end
-  
-  # Change
 
-  test "change returns the change in the list" do
-    assert Utility.change(Fixtures.numbers) === Fixtures.numbers_change
+  test "change/2" do
+    assert Utility.change(Fixtures.numbers) === {:ok, Fixtures.numbers_change}
+    assert Utility.change([3]) === {:error, :insufficient_data}
+    assert Utility.change([]) === {:error, :no_data}
   end
 
-  test "change returns nil when the list is empty" do
-    assert Utility.change([]) === nil
+  test "gain/1" do
+    assert Utility.gain(Fixtures.numbers) === {:ok, Fixtures.numbers_gain}
+    assert Utility.gain([3]) === {:error, :insufficient_data}
+    assert Utility.gain([]) === {:error, :no_data}
   end
 
-  test "change returns nil when the list is 1 number long" do
-    assert Utility.change([3]) === nil
+  test "high/1" do
+    assert Utility.high(Fixtures.numbers) === {:ok, Fixtures.numbers_high}
+    assert Utility.high([3]) == {:ok, 3}
+    assert Utility.high([]) === {:error, :no_data}
   end
 
-  # Gain
-
-  test "gain returns the gain in the list" do
-    assert Utility.gain(Fixtures.numbers) === Fixtures.numbers_gain
+  test "loss/1" do
+    assert Utility.loss(Fixtures.numbers) === {:ok, Fixtures.numbers_loss}
+    assert Utility.loss([3]) === {:error, :insufficient_data}
+    assert Utility.loss([]) === {:error, :no_data}
   end
 
-  test "gain returns nil when the list is empty" do
-    assert Utility.gain([]) === nil
+  test "low/1" do
+    assert Utility.low(Fixtures.numbers) === {:ok, Fixtures.numbers_low}
+    assert Utility.low([3]) == {:ok, 3}
+    assert Utility.low([]) === {:error, :no_data}
   end
 
-  test "gain returns nil when the list is 1 number long" do
-    assert Utility.gain([3]) === nil
+  test "occur/1" do
+    assert Utility.occur(Fixtures.numbers) === {:ok, Fixtures.numbers_occur}
+    assert Utility.occur([3]) === {:ok, %{3 => 1}}
+    assert Utility.occur([]) === {:error, :no_data}
   end
 
-  # High
-
-  test "high returns the highest value" do
-    assert Utility.high(Fixtures.numbers) === Fixtures.numbers_high
+  test "change!/2" do
+    assert Utility.change!(Fixtures.numbers) === Fixtures.numbers_change
+    assert_raise InsufficientDataError, fn -> Utility.change!([3]) end
+    assert_raise NoDataError, fn -> Utility.change!([]) end
   end
 
-  test "high returns nil when the list is empty" do
-    assert Utility.high([]) === nil
+  test "gain!/1" do
+    assert Utility.gain!(Fixtures.numbers) === Fixtures.numbers_gain
+    assert_raise InsufficientDataError, fn -> Utility.gain!([3]) end
+    assert_raise NoDataError, fn -> Utility.gain!([]) end
   end
 
-  test "high returns the number when the list is 1 number long" do
-    assert Utility.high([3]) == 3
+  test "high!/1" do
+    assert Utility.high!(Fixtures.numbers) === Fixtures.numbers_high
+    assert Utility.high!([3]) === 3
+    assert_raise NoDataError, fn -> Utility.high!([]) end
   end
 
-  # Loss
-
-  test "loss returns the loss in the list" do
-    assert Utility.loss(Fixtures.numbers) === Fixtures.numbers_loss
-  end
-  
-  test "loss returns nil when the list is empty" do
-    assert Utility.loss([]) === nil
+  test "loss!/1" do
+    assert Utility.loss!(Fixtures.numbers) === Fixtures.numbers_loss
+    assert_raise InsufficientDataError, fn -> Utility.loss!([3]) end
+    assert_raise NoDataError, fn -> Utility.loss!([]) end
   end
 
-  test "loss returns nil when the list is 1 number long" do
-    assert Utility.loss([3]) === nil
+  test "low!/1" do
+    assert Utility.low!(Fixtures.numbers) === Fixtures.numbers_low
+    assert Utility.low!([3]) == 3
+    assert_raise NoDataError, fn -> Utility.low!([]) end
   end
 
-  # Low
-
-  test "low returns the lowest value" do
-    assert Utility.low(Fixtures.numbers) === Fixtures.numbers_low
-  end
-
-  test "low returns nil when the list is empty" do
-    assert Utility.low([]) === nil
-  end
-
-  test "low returns the number when the list is 1 number long" do
-    assert Utility.low([3]) == 3
-  end
-
-  # Occur
-
-  test "occur returns a map with element occurance of a list" do
-    assert Utility.occur(Fixtures.numbers) === Fixtures.numbers_occur
-  end
-
-  test "occur returns nil when the list is empty" do
-    assert Utility.occur([]) === nil
+  test "occur!/1" do
+    assert Utility.occur!(Fixtures.numbers) === Fixtures.numbers_occur
+    assert Utility.occur!([3]) === %{3 => 1}
+    assert_raise NoDataError, fn -> Utility.occur!([]) end
   end
 end

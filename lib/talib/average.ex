@@ -9,6 +9,21 @@ defmodule Talib.Average do
   @doc """
   Gets the mean of a list.
 
+  Returns `{:ok, mean}`, otherwise `{:error, reason}`.
+
+  ## Examples
+
+      iex> Talib.Average.mean([1, 2, 3, 4])
+      {:ok, 2.5}
+
+      iex> Talib.Average.mean([1])
+      {:ok, 1.0}
+
+      iex> Talib.Average.mean([])
+      {:error, :no_data}
+
+  ## History
+
   Version: 1.0  
   Source: http://mathworld.wolfram.com/ArithmeticMean.html  
   Audited by:
@@ -18,16 +33,30 @@ defmodule Talib.Average do
   |              |                   |
 
   """
-
-  @spec mean([number]) :: number | nil
-  def mean([]), do: nil
-  def mean([n]), do: n
-  def mean(data) when is_list(data) do
-    Enum.sum(data) / length(data)
-  end
+  @spec mean([number]) :: {:ok, number} | {:error, atom}
+  def mean([]), do: {:error, :no_data}
+  def mean(data), do: {:ok, Enum.sum(data) / length(data)}
 
   @doc """
   Gets the median of a list.
+
+  Returns `{:ok, median}`, otherwise `{:error, reason}`.
+
+  ## Examples
+
+      iex> Talib.Average.median([1, 2, 3, 4, 5])
+      {:ok, 3.0}
+
+      iex> Talib.Average.median([1, 2, 3, 4])
+      {:ok, 2.5}
+
+      iex> Talib.Average.median([1])
+      {:ok, 1.0}
+
+      iex> Talib.Average.median([])
+      {:error, :no_data}
+
+  ## History
 
   Version: 1.0  
   Source: http://mathworld.wolfram.com/StatisticalMedian.html  
@@ -38,11 +67,166 @@ defmodule Talib.Average do
   |              |                   |
 
   """
+  @spec median([number]) :: {:ok, number} | {:error, atom}
+  def median([]), do: {:error, :no_data}
+  def median(data) do
+    midpoint = data
+    |> length
+    |> Integer.floor_div(2)
 
-  @spec median([number]) :: number | nil
-  def median([]), do: nil
-  def median([n]), do: n
-  def median(data) when is_list(data) do
+    # 0 is even, 1 is odd
+    case data |> length |> rem(2) do
+      0 ->
+        {_, [med1, med2 | _]} = Enum.split(data, midpoint - 1)
+        {:ok, (med1 + med2) / 2}
+      1 ->
+        {_, [median | _]} = Enum.split(data, midpoint)
+        {:ok, median / 1}
+    end
+  end
+
+  @doc """
+  Gets the midrange of a list.
+
+  Returns `{:ok, midrange}`, otherwise `{:error, reason}`.
+
+  ## Examples
+
+      iex> Talib.Average.midrange([1, 2, 3, 4, 5])
+      {:ok, 3.0}
+
+      iex> Talib.Average.midrange([1, 2, 3, 4])
+      {:ok, 2.5}
+
+      iex> Talib.Average.midrange([1])
+      {:ok, 1.0}
+
+      iex> Talib.Average.midrange([])
+      {:error, :no_data}
+
+  ## History
+
+  Version: 1.0  
+  Source: http://mathworld.wolfram.com/Midrange.html  
+  Audited by:
+
+  | Name         | Title             |
+  | :----------- | :---------------- |
+  |              |                   |
+
+  """
+  @spec midrange([number]) :: {:ok, number} | {:error, atom}
+  def midrange([]), do: {:error, :no_data}
+  def midrange(data) do
+    max = data |> Enum.max
+    min = data |> Enum.min
+
+    {:ok, (max + min) / 2}
+  end
+
+  @doc """
+  Gets the most frequently occuring value in a list.
+
+  Returns `{:ok, mode}`, otherwise `{:error, reason}`.
+
+  ## Examples
+
+      iex> Talib.Average.mode([1, 2, 3, 4, 5])
+      {:ok, [1, 2, 3, 4, 5]}
+
+      iex> Talib.Average.mode([1, 2, 3, 4, 2])
+      {:ok, 2}
+
+      iex> Talib.Average.mode([1])
+      {:ok, 1}
+
+      iex> Talib.Average.mode([])
+      {:error, :no_data}
+
+  ## History
+
+  Version: 1.0  
+  Source: http://mathworld.wolfram.com/Mode.html  
+  Audited by:
+
+  | Name         | Title             |
+  | :----------- | :---------------- |
+  |              |                   |
+
+  """
+  @spec mode([number]) :: {:ok, [number, ...] | number} | {:error, atom}
+  def mode([]), do: {:error, :no_data}
+  def mode(data) do
+    case Utility.occur(data) do
+      {:ok, occur} -> {:ok, map_max(occur)}
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  @doc """
+  Gets the mean of a list.
+
+  Raises `NoDataError` if the given list is an empty list.
+
+  ## Examples
+
+      iex> Talib.Average.mean!([1, 2, 3, 4])
+      2.5
+
+      iex> Talib.Average.mean!([1])
+      1.0
+
+      iex> Talib.Average.mean!([])
+      ** (NoDataError) no data error
+
+  ## History
+
+  Version: 1.0  
+  Source: http://mathworld.wolfram.com/ArithmeticMean.html  
+  Audited by:
+
+  | Name         | Title             |
+  | :----------- | :---------------- |
+  |              |                   |
+
+  """
+  @spec mean!([number]) :: number | no_return
+  def mean!([]), do: raise NoDataError
+  def mean!(data), do: Enum.sum(data) / length(data)
+
+  @doc """
+  Gets the median of a list.
+
+  Raises `NoDataError` if the given list is an empty list.
+
+  ## Examples
+
+      iex> Talib.Average.median!([1, 2, 3, 4, 5])
+      3.0
+
+      iex> Talib.Average.median!([1, 2, 3, 4])
+      2.5
+
+      iex> Talib.Average.median!([1])
+      1.0
+
+      iex> Talib.Average.median!([])
+      ** (NoDataError) no data error
+
+  ## History
+
+  Version: 1.0  
+  Source: http://mathworld.wolfram.com/StatisticalMedian.html  
+  Audited by:
+
+  | Name         | Title             |
+  | :----------- | :---------------- |
+  |              |                   |
+
+  """
+  @spec median!([number]) :: number | no_return
+  def median!([]), do: raise NoDataError
+  def median!(data) do
     midpoint = data
     |> length
     |> Integer.floor_div(2)
@@ -54,12 +238,30 @@ defmodule Talib.Average do
         (med1 + med2) / 2
       1 ->
         {_, [median | _]} = Enum.split(data, midpoint)
-        median
+        median / 1
     end
   end
 
   @doc """
   Gets the midrange of a list.
+
+  Raises `NoDataError` if the given list is an empty list.
+
+  ## Examples
+
+      iex> Talib.Average.midrange!([1, 2, 3, 4, 5])
+      3.0
+
+      iex> Talib.Average.midrange!([1, 2, 3, 4])
+      2.5
+
+      iex> Talib.Average.midrange!([1])
+      1.0
+
+      iex> Talib.Average.midrange!([])
+      ** (NoDataError) no data error
+
+  ## History
 
   Version: 1.0  
   Source: http://mathworld.wolfram.com/Midrange.html  
@@ -70,11 +272,9 @@ defmodule Talib.Average do
   |              |                   |
 
   """
-
-  @spec midrange([number]) :: number | nil
-  def midrange([]), do: nil
-  def midrange([n]), do: n
-  def midrange(data) when is_list(data) do
+  @spec midrange!([number]) :: number | no_return
+  def midrange!([]), do: raise NoDataError
+  def midrange!(data) do
     max = data |> Enum.max
     min = data |> Enum.min
 
@@ -83,6 +283,24 @@ defmodule Talib.Average do
 
   @doc """
   Gets the most frequently occuring value in a list.
+
+  Raises `NoDataError` if the given list is an empty list.
+
+  ## Examples
+
+      iex> Talib.Average.mode!([1, 2, 3, 4, 5])
+      [1, 2, 3, 4, 5]
+
+      iex> Talib.Average.mode!([1, 2, 3, 4, 2])
+      2
+
+      iex> Talib.Average.mode!([1])
+      1
+
+      iex> Talib.Average.mode!([])
+      ** (NoDataError) no data error
+
+  ## History
 
   Version: 1.0  
   Source: http://mathworld.wolfram.com/Mode.html  
@@ -93,19 +311,17 @@ defmodule Talib.Average do
   |              |                   |
 
   """
-
-  @spec mode([number]) :: number | nil
-  def mode([]), do: nil
-  def mode([n]), do: n
-  def mode(data) when is_list(data) do
+  @spec mode!([number]) :: [number, ...] | number | no_return
+  def mode!([]), do: raise NoDataError
+  def mode!(data) do
     data
-    |> Utility.occur
+    |> Utility.occur!
     |> map_max
   end
 
   @doc false
   @spec map_max(map()) :: number | [number, ...]
-  defp map_max(map) when is_map(map) do
+  defp map_max(map) do
     max = map
     |> Map.values
     |> Enum.max

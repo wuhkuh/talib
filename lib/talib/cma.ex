@@ -1,4 +1,3 @@
-# TODO: Moduledocs
 defmodule Talib.CMA do
   @moduledoc ~S"""
   Defines a Cumulative Moving Average.
@@ -137,8 +136,6 @@ defmodule Talib.CMA do
       {:error, :no_data} -> raise NoDataError 
     end
   end
-
-################################################################################
 
   @doc false
   @spec calculate_cumulative([number]) :: {:ok, Talib.CMA.t} | {:error, atom}

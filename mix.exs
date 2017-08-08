@@ -39,6 +39,6 @@ defmodule Talib.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [{:ok, "~> 1.6"}]
   end
 end

@@ -29,11 +29,18 @@ defmodule Talib.SMATest do
         values: Fixtures.numbers_sma_10
       }}
 
+    assert SMA.from_list([nil, 87, 77], 2) ==
+      {:ok, %Talib.SMA{
+        period: 2,
+        values: [nil, nil, 82.0]
+      }}
+
     assert SMA.from_list([3], 3) ==
       {:ok, %Talib.SMA{
         period: 3,
         values: [nil]
       }}
+
 
     assert SMA.from_list([], 1) === {:error, :no_data}
     assert SMA.from_list([3], 0) === {:error, :bad_period}
@@ -44,6 +51,12 @@ defmodule Talib.SMATest do
       %Talib.SMA{
         period: 10,
         values: Fixtures.numbers_sma_10
+      }
+
+    assert SMA.from_list!([nil, 87, 77], 2) ==
+      %Talib.SMA{
+        period: 2,
+        values: [nil, nil, 82.0]
       }
 
     assert SMA.from_list!([3], 3) ==

@@ -87,12 +87,14 @@ defmodule Talib.SMA do
     do: {:error, :bad_period}
   defp calculate([], period, results),
     do: {:ok, %Talib.SMA{period: period, values: results}}
-  defp calculate([_hd | tl] = data, period, results) do
+  defp calculate([hd | tl] = data, period, results) do
     cond do
       length(results) < (period - 1) && length(data) > length(results) ->
         calculate(data, period, results ++ [nil])
       length(data) < period ->
         calculate(tl, period, results)
+      hd === nil ->
+        calculate(tl, period, results ++ [nil])
       length(data) >= period ->
         result = data
         |> Enum.take(period)

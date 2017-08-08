@@ -93,7 +93,7 @@ defmodule Talib.MACD do
   | no_return
   def from_list!(data, long \\ 26, short \\ 12, signal \\ 9) do
     case calculate(data, long, short, signal) do
-      {:ok, macd} -> macd
+      {:ok, result} -> result
       {:error, :no_data} -> raise NoDataError
     end
   end

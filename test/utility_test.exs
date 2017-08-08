@@ -14,22 +14,22 @@ defmodule Talib.UtilityTest do
 
     def numbers_change do
       [
-      -12, -24, 11,  14, -11, -37, -24, 18, 29,
-       -7, -16, 70, -52, -14,  35, -29,  4, 22, 23
+      nil, -12, -24,  11,  14, -11, -37, -24, 18, 29,
+       -7, -16,  70, -52, -14,  35, -29,   4, 22, 23
       ]
     end
 
     def numbers_gain do
       [
-        0, 0, 11, 14, 0,  0, 0, 18, 29,
-        0, 0, 70,  0, 0, 35, 0,  4, 22, 23
+        nil, 0,  0, 11, 14,  0, 0, 0, 18, 29,
+          0, 0, 70,  0,  0, 35, 0, 4, 22, 23
       ]
     end
 
     def numbers_loss do
       [
-        12, 24, 0,  0, 11, 37, 24, 0, 0,
-         7, 16, 0, 52, 14,  0, 29, 0, 0, 0
+        nil, 12, 24,  0,  0, 11, 37, 24, 0, 0,
+          7, 16,  0, 52, 14,  0, 29,  0, 0, 0
       ]
     end
 
@@ -47,13 +47,13 @@ defmodule Talib.UtilityTest do
 
   test "change/2" do
     assert Utility.change(Fixtures.numbers) == {:ok, Fixtures.numbers_change}
-    assert Utility.change([3]) === {:error, :insufficient_data}
+    assert Utility.change([3]) === {:ok, [nil]}
     assert Utility.change([]) === {:error, :no_data}
   end
 
   test "gain/1" do
     assert Utility.gain(Fixtures.numbers) == {:ok, Fixtures.numbers_gain}
-    assert Utility.gain([3]) === {:error, :insufficient_data}
+    assert Utility.gain([3]) === {:ok, [nil]}
     assert Utility.gain([]) === {:error, :no_data}
   end
 
@@ -65,7 +65,7 @@ defmodule Talib.UtilityTest do
 
   test "loss/1" do
     assert Utility.loss(Fixtures.numbers) == {:ok, Fixtures.numbers_loss}
-    assert Utility.loss([3]) === {:error, :insufficient_data}
+    assert Utility.loss([3]) === {:ok, [nil]}
     assert Utility.loss([]) === {:error, :no_data}
   end
 
@@ -83,13 +83,13 @@ defmodule Talib.UtilityTest do
 
   test "change!/2" do
     assert Utility.change!(Fixtures.numbers) == Fixtures.numbers_change
-    assert_raise InsufficientDataError, fn -> Utility.change!([3]) end
+    assert Utility.change!([3]) === [nil]
     assert_raise NoDataError, fn -> Utility.change!([]) end
   end
 
   test "gain!/1" do
     assert Utility.gain!(Fixtures.numbers) == Fixtures.numbers_gain
-    assert_raise InsufficientDataError, fn -> Utility.gain!([3]) end
+    assert Utility.gain!([3]) === [nil]
     assert_raise NoDataError, fn -> Utility.gain!([]) end
   end
 
@@ -101,7 +101,7 @@ defmodule Talib.UtilityTest do
 
   test "loss!/1" do
     assert Utility.loss!(Fixtures.numbers) == Fixtures.numbers_loss
-    assert_raise InsufficientDataError, fn -> Utility.loss!([3]) end
+    assert Utility.loss!([3]) === [nil]
     assert_raise NoDataError, fn -> Utility.loss!([]) end
   end
 

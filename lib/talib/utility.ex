@@ -17,19 +17,19 @@ defmodule Talib.Utility do
   ## Examples
 
       iex> Talib.Utility.change([1, 2, -3])
-      {:ok, [1, -5]}
+      {:ok, [nil, 1, -5]}
 
       iex> Talib.Utility.change([1, 2, -3], 1)
-      {:ok, [1, 0]}
+      {:ok, [nil, 1, 0]}
 
       iex> Talib.Utility.change([1, 2, -3], -1)
-      {:ok, [0, 5]}
+      {:ok, [nil, 0, 5]}
+
+      iex> Talib.Utility.change([1], -1)
+      {:ok, [nil]}
 
       iex> Talib.Utility.change([], -1)
       {:error, :no_data}
-
-      iex> Talib.Utility.change([1], -1)
-      {:error, :insufficient_data}
 
   ## History
 
@@ -44,10 +44,8 @@ defmodule Talib.Utility do
   @spec change([number], integer) :: {:ok, [number, ...]} | {:error, atom}
   def change(_data, direction \\ 0)
   def change([], _direction), do: {:error, :no_data}
-  def change([_], _direction), do: {:error, :insufficient_data}
   def change(data, direction) do
     [_, result] = Enum.reduce(data, [nil, []], fn(element, [last_el, total]) ->
-
       # Check differences between last element and current element
       cond do
         (last_el === nil) ->
@@ -62,7 +60,7 @@ defmodule Talib.Utility do
       end
     end)
 
-    {:ok, result}
+    {:ok, [nil | result]}
   end
 
   @doc """
@@ -74,13 +72,13 @@ defmodule Talib.Utility do
   ## Examples
 
       iex> Talib.Utility.gain([1, 2, -3])
-      {:ok, [1, 0]}
+      {:ok, [nil, 1, 0]}
+
+      iex> Talib.Utility.gain([1])
+      {:ok, [nil]}
 
       iex> Talib.Utility.gain([])
       {:error, :no_data}
-
-      iex> Talib.Utility.gain([1])
-      {:error, :insufficient_data}
 
   ## History
 
@@ -134,13 +132,13 @@ defmodule Talib.Utility do
   ## Examples
 
       iex> Talib.Utility.loss([1, 2, -3])
-      {:ok, [0, 5]}
+      {:ok, [nil, 0, 5]}
+
+      iex> Talib.Utility.loss([1])
+      {:ok, [nil]}
 
       iex> Talib.Utility.loss([])
       {:error, :no_data}
-
-      iex> Talib.Utility.loss([1])
-      {:error, :insufficient_data}
 
   ## History
 
@@ -237,19 +235,19 @@ defmodule Talib.Utility do
   ## Examples
 
       iex> Talib.Utility.change!([1, 2, -3])
-      [1, -5]
+      [nil, 1, -5]
 
       iex> Talib.Utility.change!([1, 2, -3], 1)
-      [1, 0]
+      [nil, 1, 0]
 
       iex> Talib.Utility.change!([1, 2, -3], -1)
-      [0, 5]
+      [nil, 0, 5]
+
+      iex> Talib.Utility.change!([1], -1)
+      [nil]
 
       iex> Talib.Utility.change!([], -1)
       ** (NoDataError) no data error
-
-      iex> Talib.Utility.change!([1], -1)
-      ** (InsufficientDataError) insufficient data error
 
   ## History
 
@@ -264,7 +262,6 @@ defmodule Talib.Utility do
   @spec change!([number], integer) :: [number, ...] | no_return
   def change!(_data, direction \\ 0)
   def change!([], _direction), do: raise NoDataError
-  def change!([_], _direction), do: raise InsufficientDataError
   def change!(data, direction) do
     {:ok, result} = change(data, direction)
 
@@ -281,13 +278,13 @@ defmodule Talib.Utility do
   ## Examples
 
       iex> Talib.Utility.gain!([1, 2, -3])
-      [1, 0]
+      [nil, 1, 0]
+
+      iex> Talib.Utility.gain!([1])
+      [nil]
 
       iex> Talib.Utility.gain!([])
       ** (NoDataError) no data error
-
-      iex> Talib.Utility.gain!([1])
-      ** (InsufficientDataError) insufficient data error
 
   ## History
 
@@ -342,13 +339,13 @@ defmodule Talib.Utility do
   ## Examples
 
       iex> Talib.Utility.loss!([1, 2, -3])
-      [0, 5]
+      [nil, 0, 5]
+
+      iex> Talib.Utility.loss!([1])
+      [nil]
 
       iex> Talib.Utility.loss!([])
       ** (NoDataError) no data error
-
-      iex> Talib.Utility.loss!([1])
-      ** (InsufficientDataError) insufficient data error
 
   ## History
 

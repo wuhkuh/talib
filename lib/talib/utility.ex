@@ -230,7 +230,6 @@ defmodule Talib.Utility do
   If -1, it replaces gains with a 0. Results are absolute values.
 
   Raises `NoDataError` if the given list is an empty list.
-  Raises `InsufficientDataError` if the given list only has one element.
 
   ## Examples
 
@@ -273,7 +272,6 @@ defmodule Talib.Utility do
 
   Alias for `MovingAverage.change!(data, 1)`.
   Raises `NoDataError` if the given list is an empty list.
-  Raises `InsufficientDataError` if the given list only has one element.
 
   ## Examples
 
@@ -334,7 +332,6 @@ defmodule Talib.Utility do
 
   Alias for `MovingAverage.change!(data, -1)`.
   Raises `NoDataError` if the given list is an empty list.
-  Raises `InsufficientDataError` if the given list only has one element.
 
   ## Examples
 

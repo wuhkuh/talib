@@ -131,7 +131,6 @@ defmodule Talib.CMA do
 
   @doc false
   @spec calculate([number]) :: {:ok, Talib.CMA.t} | {:error, atom}
-  defp calculate([]), do: {:error, :no_data}
   defp calculate(data), do: calculate(data, 0, 0)
 
   @doc false

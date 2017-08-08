@@ -45,14 +45,12 @@ defmodule Talib.CMATest do
   test "from_list/1" do
     assert CMA.from_list(Fixtures.numbers) ==
       {:ok, %Talib.CMA{
-        prices: Fixtures.numbers,
         values: Fixtures.numbers_cma,
         weight: length(Fixtures.numbers)
       }}
 
     assert CMA.from_list([3]) ==
       {:ok, %Talib.CMA{
-        prices: [3],
         values: [3.0],
         weight: 1
       }}
@@ -65,14 +63,12 @@ defmodule Talib.CMATest do
 
     assert CMA.from_list(Fixtures.numbers, average, weight) ==
       {:ok, %Talib.CMA{
-        prices: [average | Fixtures.numbers],
         values: Fixtures.numbers_pre_existing_cma,
         weight: 30
       }}
 
     assert CMA.from_list([], 2, 1) ==
       {:ok, %Talib.CMA{
-        prices: [2],
         values: [2.0],
         weight: 1
       }}
@@ -83,14 +79,12 @@ defmodule Talib.CMATest do
   test "from_list!/1" do
     assert CMA.from_list!(Fixtures.numbers) ==
       %Talib.CMA{
-        prices: Fixtures.numbers,
         values: Fixtures.numbers_cma,
         weight: length(Fixtures.numbers)
       }
 
     assert CMA.from_list!([3]) ==
       %Talib.CMA{
-        prices: [3],
         values: [3.0],
         weight: 1
       }
@@ -103,14 +97,12 @@ defmodule Talib.CMATest do
 
     assert CMA.from_list!(Fixtures.numbers, average, weight) ==
       %Talib.CMA{
-        prices: [average | Fixtures.numbers],
         values: Fixtures.numbers_pre_existing_cma,
         weight: 30
       }
 
     assert CMA.from_list!([], 2, 1) ==
       %Talib.CMA{
-        prices: [2],
         values: [2.0],
         weight: 1
       }

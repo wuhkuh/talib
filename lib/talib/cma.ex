@@ -17,13 +17,11 @@ defmodule Talib.CMA do
   @typedoc """
   Defines a Cumulative Moving Average.
 
-  * :prices - List of prices used in the calculation
   * :values - List of values resulting from the calculation
   * :weight - The current weight of the CMA
   """
-  @type t :: %Talib.CMA{prices: [number], values: [number], weight: integer}
+  @type t :: %Talib.CMA{values: [number], weight: integer}
   defstruct [
-    prices: [],
     values: [],
     weight: 0
   ]
@@ -37,7 +35,6 @@ defmodule Talib.CMA do
 
       iex> Talib.CMA.from_list([17, 23, 44])
       {:ok, %Talib.CMA{
-        prices: [17, 23, 44],
         values: [17.0, 20.0, 28.0],
         weight: 3
       }}
@@ -57,14 +54,12 @@ defmodule Talib.CMA do
 
       iex> Talib.CMA.from_list([17, 23, 44], 1, 3)
       {:ok, %Talib.CMA{
-        prices: [1, 17, 23, 44],
         values: [1.0, 5.0, 8.6, 14.5],
         weight: 6
       }}
 
       iex> Talib.CMA.from_list([], 1, 3)
       {:ok, %Talib.CMA{
-        prices: [1],
         values: [1.0],
         weight: 3
       }}
@@ -87,7 +82,6 @@ defmodule Talib.CMA do
 
       iex> Talib.CMA.from_list!([17, 23, 44])
       %Talib.CMA{
-        prices: [17, 23, 44],
         values: [17.0, 20.0, 28.0],
         weight: 3
       }
@@ -114,14 +108,12 @@ defmodule Talib.CMA do
 
       iex> Talib.CMA.from_list!([17, 23, 44], 1, 3)
       %Talib.CMA{
-        prices: [1, 17, 23, 44],
         values: [1.0, 5.0, 8.6, 14.5],
         weight: 6
       }
 
       iex> Talib.CMA.from_list!([], 1, 3)
       %Talib.CMA{
-        prices: [1],
         values: [1.0],
         weight: 3
       }
@@ -149,7 +141,6 @@ defmodule Talib.CMA do
   defp calculate_cumulative([], _average, 0), do: {:error, :no_data}
   defp calculate_cumulative([], average, weight) do
     {:ok, %Talib.CMA{
-      prices: [average],
       values: [average / 1],
       weight: weight
     }}
@@ -165,13 +156,11 @@ defmodule Talib.CMA do
     case weight do
       0 ->
         {:ok, %Talib.CMA{
-          prices: data,
           values: result,
           weight: weight + length(data)
         }}
       _ ->
         {:ok, %Talib.CMA{
-          prices: [average | data],
           values: [average / 1 | result],
           weight: weight + length(data)
         }}

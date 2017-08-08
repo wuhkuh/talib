@@ -74,7 +74,7 @@ defmodule Talib.CMA do
     do: calculate(average, weight, data)
 
   @doc """
-  Gets the cumulative moving average of a list.
+  Gets the CMA of a list.
 
   Raises `NoDataError` if the given list is an empty list.
 

@@ -43,7 +43,7 @@ defmodule Talib.CMA do
       {:error, :no_data}
   """
   @spec from_list([number]) :: {:ok, Talib.CMA.t} | {:error, atom}
-  def from_list(data), do: calculate_cumulative(data)
+  def from_list(data), do: calculate(data)
 
   @doc """
   Gets the CMA of a list with pre-existing average and weight.
@@ -71,7 +71,7 @@ defmodule Talib.CMA do
   {:ok, Talib.CMA.t}
   | {:error, atom}
   def from_list(average, weight, data),
-    do: calculate_cumulative(average, weight, data)
+    do: calculate(average, weight, data)
 
   @doc """
   Gets the cumulative moving average of a list.
@@ -91,7 +91,7 @@ defmodule Talib.CMA do
   """
   @spec from_list!([number]) :: Talib.CMA.t | no_return
   def from_list!(data) do
-    case calculate_cumulative(data) do
+    case calculate(data) do
       {:ok, result} -> result
       {:error, :no_data} -> raise NoDataError 
     end
@@ -123,29 +123,26 @@ defmodule Talib.CMA do
   """
   @spec from_list!([number], number, integer) :: Talib.CMA.t | no_return
   def from_list!(average, weight, data) do
-    case calculate_cumulative(average, weight, data) do
+    case calculate(average, weight, data) do
       {:ok, result} -> result
       {:error, :no_data} -> raise NoDataError 
     end
   end
 
   @doc false
-  @spec calculate_cumulative([number]) :: {:ok, Talib.CMA.t} | {:error, atom}
-  defp calculate_cumulative([]), do: {:error, :no_data}
-  defp calculate_cumulative(data), do: calculate_cumulative(data, 0, 0)
+  @spec calculate([number]) :: {:ok, Talib.CMA.t} | {:error, atom}
+  defp calculate([]), do: {:error, :no_data}
+  defp calculate(data), do: calculate(data, 0, 0)
 
   @doc false
-  @spec calculate_cumulative([number], number, integer) ::
+  @spec calculate([number], number, integer) ::
   {:ok, Talib.CMA.t}
   | {:error, atom}
-  defp calculate_cumulative([], _average, 0), do: {:error, :no_data}
-  defp calculate_cumulative([], average, weight) do
-    {:ok, %Talib.CMA{
-      values: [average / 1],
-      weight: weight
-    }}
-  end
-  defp calculate_cumulative(data, average, weight) do
+  defp calculate([], _average, 0),
+    do: {:error, :no_data}
+  defp calculate([], average, weight),
+    do: {:ok, %Talib.CMA{values: [average / 1], weight: weight}}
+  defp calculate(data, average, weight) do
     result = for {_number, index} <- Enum.with_index(data, 1) do
       Enum.take(data, index)
       |> Enum.sum

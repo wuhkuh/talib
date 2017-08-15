@@ -46,74 +46,106 @@ defmodule Talib.UtilityTest do
   end
 
   test "change/2" do
-    assert Utility.change(Fixtures.numbers) == {:ok, Fixtures.numbers_change}
+    assert Utility.change(Fixtures.numbers) === {:ok, Fixtures.numbers_change}
+    assert Utility.change([nil, 3, nil]) === {:ok, [nil, nil, nil]}
+    assert Utility.change([nil, 3]) === {:ok, [nil, nil]}
+    assert Utility.change([nil]) === {:ok, [nil]}
     assert Utility.change([3]) === {:ok, [nil]}
     assert Utility.change([]) === {:error, :no_data}
   end
 
   test "gain/1" do
-    assert Utility.gain(Fixtures.numbers) == {:ok, Fixtures.numbers_gain}
+    assert Utility.gain(Fixtures.numbers) === {:ok, Fixtures.numbers_gain}
+    assert Utility.gain([nil, 3, nil]) === {:ok, [nil, nil, nil]}
+    assert Utility.gain([nil, 3]) === {:ok, [nil, nil]}
+    assert Utility.gain([nil]) === {:ok, [nil]}
     assert Utility.gain([3]) === {:ok, [nil]}
     assert Utility.gain([]) === {:error, :no_data}
   end
 
   test "high/1" do
-    assert Utility.high(Fixtures.numbers) == {:ok, Fixtures.numbers_high}
-    assert Utility.high([3]) == {:ok, 3}
+    assert Utility.high(Fixtures.numbers) === {:ok, Fixtures.numbers_high}
+    assert Utility.high([nil, 3, nil]) === {:ok, 3}
+    assert Utility.high([nil, 3]) === {:ok, 3}
+    assert Utility.high([nil]) === {:ok, nil}
+    assert Utility.high([3]) === {:ok, 3}
     assert Utility.high([]) === {:error, :no_data}
   end
 
   test "loss/1" do
-    assert Utility.loss(Fixtures.numbers) == {:ok, Fixtures.numbers_loss}
+    assert Utility.loss(Fixtures.numbers) === {:ok, Fixtures.numbers_loss}
+    assert Utility.loss([nil, 3, nil]) === {:ok, [nil, nil, nil]}
+    assert Utility.loss([nil, 3]) === {:ok, [nil, nil]}
+    assert Utility.loss([nil]) === {:ok, [nil]}
     assert Utility.loss([3]) === {:ok, [nil]}
     assert Utility.loss([]) === {:error, :no_data}
   end
 
   test "low/1" do
-    assert Utility.low(Fixtures.numbers) == {:ok, Fixtures.numbers_low}
-    assert Utility.low([3]) == {:ok, 3}
+    assert Utility.low(Fixtures.numbers) === {:ok, Fixtures.numbers_low}
+    assert Utility.low([nil, 3, nil]) === {:ok, 3}
+    assert Utility.low([nil, 3]) === {:ok, 3}
+    assert Utility.low([nil]) === {:ok, nil}
+    assert Utility.low([3]) === {:ok, 3}
     assert Utility.low([]) === {:error, :no_data}
   end
 
   test "occur/1" do
-    assert Utility.occur(Fixtures.numbers) == {:ok, Fixtures.numbers_occur}
-    assert Utility.occur([3]) == {:ok, %{3 => 1}}
+    assert Utility.occur(Fixtures.numbers) === {:ok, Fixtures.numbers_occur}
+    assert Utility.occur([nil, 3, nil]) === {:ok, %{3 => 1, nil => 2}}
+    assert Utility.occur([3]) === {:ok, %{3 => 1}}
     assert Utility.occur([]) === {:error, :no_data}
   end
 
   test "change!/2" do
-    assert Utility.change!(Fixtures.numbers) == Fixtures.numbers_change
+    assert Utility.change!(Fixtures.numbers) === Fixtures.numbers_change
+    assert Utility.change!([nil, 3, nil]) === [nil, nil, nil]
+    assert Utility.change!([nil, 3]) === [nil, nil]
+    assert Utility.change!([nil]) === [nil]
     assert Utility.change!([3]) === [nil]
     assert_raise NoDataError, fn -> Utility.change!([]) end
   end
 
   test "gain!/1" do
-    assert Utility.gain!(Fixtures.numbers) == Fixtures.numbers_gain
+    assert Utility.gain!(Fixtures.numbers) === Fixtures.numbers_gain
+    assert Utility.gain!([nil, 3, nil]) === [nil, nil, nil]
+    assert Utility.gain!([nil, 3]) === [nil, nil]
+    assert Utility.gain!([nil]) === [nil]
     assert Utility.gain!([3]) === [nil]
     assert_raise NoDataError, fn -> Utility.gain!([]) end
   end
 
   test "high!/1" do
-    assert Utility.high!(Fixtures.numbers) == Fixtures.numbers_high
-    assert Utility.high!([3]) == 3
+    assert Utility.high!(Fixtures.numbers) === Fixtures.numbers_high
+    assert Utility.high!([nil, 3, nil]) === 3
+    assert Utility.high!([nil, 3]) === 3
+    assert Utility.high!([nil]) === nil
+    assert Utility.high!([3]) === 3
     assert_raise NoDataError, fn -> Utility.high!([]) end
   end
 
   test "loss!/1" do
-    assert Utility.loss!(Fixtures.numbers) == Fixtures.numbers_loss
+    assert Utility.loss!(Fixtures.numbers) === Fixtures.numbers_loss
+    assert Utility.loss!([nil, 3, nil]) === [nil, nil, nil]
+    assert Utility.loss!([nil, 3]) === [nil, nil]
+    assert Utility.loss!([nil]) === [nil]
     assert Utility.loss!([3]) === [nil]
     assert_raise NoDataError, fn -> Utility.loss!([]) end
   end
 
   test "low!/1" do
-    assert Utility.low!(Fixtures.numbers) == Fixtures.numbers_low
-    assert Utility.low!([3]) == 3
+    assert Utility.low!(Fixtures.numbers) === Fixtures.numbers_low
+    assert Utility.low!([nil, 3, nil]) === 3
+    assert Utility.low!([nil, 3]) === 3
+    assert Utility.low!([nil]) === nil
+    assert Utility.low!([3]) === 3
     assert_raise NoDataError, fn -> Utility.low!([]) end
   end
 
   test "occur!/1" do
-    assert Utility.occur!(Fixtures.numbers) == Fixtures.numbers_occur
-    assert Utility.occur!([3]) == %{3 => 1}
+    assert Utility.occur!(Fixtures.numbers) === Fixtures.numbers_occur
+    assert Utility.occur!([nil, 3, nil]) === %{3 => 1, nil => 2}
+    assert Utility.occur!([3]) === %{3 => 1}
     assert_raise NoDataError, fn -> Utility.occur!([]) end
   end
 end

@@ -22,6 +22,9 @@ defmodule Talib.Utility do
       iex> Talib.Utility.change([1, 2, -3], 1)
       {:ok, [nil, 1, 0]}
 
+      iex> Talib.Utility.change([1, 2, nil, -3], 0)
+      {:ok, [nil, 1, nil, nil]}
+
       iex> Talib.Utility.change([1, 2, -3], -1)
       {:ok, [nil, 0, 5]}
 
@@ -48,10 +51,10 @@ defmodule Talib.Utility do
     [_, result] = Enum.reduce(data, [nil, []], fn(element, [last_el, total]) ->
       # Check differences between last element and current element
       cond do
-        (last_el === nil) ->
-          [element, total]
-        ((direction === 1 && element - last_el > 0) ||
-        (direction === -1 && element - last_el < 0)) ->
+        (element === nil or last_el === nil) ->
+          [element, total ++ [nil]]
+        ((direction === 1 and element - last_el > 0) or
+        (direction === -1 and element - last_el < 0)) ->
           [element, total ++ [abs(element - last_el)]]
         (direction === 0) ->
           [element, total ++ [element - last_el]]
@@ -60,7 +63,7 @@ defmodule Talib.Utility do
       end
     end)
 
-    {:ok, [nil | result]}
+    {:ok, result}
   end
 
   @doc """
@@ -106,6 +109,12 @@ defmodule Talib.Utility do
       iex> Talib.Utility.high([1, 3])
       {:ok, 3}
 
+      iex> Talib.Utility.high([1, nil, 3])
+      {:ok, 3}
+
+      iex> Talib.Utility.high([nil])
+      {:ok, nil}
+
       iex> Talib.Utility.high([])
       {:error, :no_data}
 
@@ -121,7 +130,14 @@ defmodule Talib.Utility do
   """
   @spec high([number]) :: {:ok, number} | {:error, atom}
   def high([]), do: {:error, :no_data}
-  def high(data), do: {:ok, Enum.max(data)}
+  def high(data) do
+    filtered_data = filter_nil(data)
+    highest = case filtered_data do
+      [] -> nil
+      [_ | _] -> Enum.max(filtered_data)
+    end
+    {:ok, highest}
+  end
 
   @doc """
   Gets the loss in the list.
@@ -166,6 +182,12 @@ defmodule Talib.Utility do
       iex> Talib.Utility.low([1, 3])
       {:ok, 1}
 
+      iex> Talib.Utility.low([1, nil, 3])
+      {:ok, 1}
+
+      iex> Talib.Utility.low([nil])
+      {:ok, nil}
+
       iex> Talib.Utility.low([])
       {:error, :no_data}
 
@@ -181,7 +203,15 @@ defmodule Talib.Utility do
   """
   @spec low([number]) :: {:ok, number} | {:error, atom}
   def low([]), do: {:error, :no_data}
-  def low(data), do: {:ok, Enum.min(data)}
+  def low(data) do
+    filtered_data = filter_nil(data)
+    lowest = case filtered_data do
+      [] -> nil
+      [_ | _] -> Enum.min(filtered_data)
+    end
+
+    {:ok, lowest}
+  end
 
   @doc """
   Creates a map with the amount of times each element of a
@@ -196,6 +226,9 @@ defmodule Talib.Utility do
 
       iex> Talib.Utility.occur([1, 2, 3, 2])
       {:ok, %{1 => 1, 2 => 2, 3 => 1}}
+
+      iex> Talib.Utility.occur([1, 2, nil, 3, 2])
+      {:ok, %{1 => 1, 2 => 2, 3 => 1, nil => 1}}
 
       iex> Talib.Utility.occur([])
       {:error, :no_data}
@@ -216,7 +249,7 @@ defmodule Talib.Utility do
     result = Enum.reduce(data, %{}, fn(tag, acc) ->
       Map.update(acc, tag, 1, &(&1 + 1))
     end)
-    
+
     {:ok, result}
   end
 
@@ -310,6 +343,12 @@ defmodule Talib.Utility do
       iex> Talib.Utility.high!([1, 3])
       3
 
+      iex> Talib.Utility.high!([1, nil, 3])
+      3
+
+      iex> Talib.Utility.high!([nil])
+      nil
+
       iex> Talib.Utility.high!([])
       ** (NoDataError) no data error
 
@@ -324,8 +363,12 @@ defmodule Talib.Utility do
 
   """
   @spec high!([number]) :: number | no_return
-  def high!([]), do: raise %NoDataError{}
-  def high!(data), do: Enum.max(data)
+  def high!(data) do
+    case high(data) do
+      {:ok, result} -> result
+      {:error, :no_data} -> raise NoDataError
+    end
+  end
 
   @doc """
   Gets the loss in the list.
@@ -370,6 +413,12 @@ defmodule Talib.Utility do
       iex> Talib.Utility.low!([1, 3])
       1
 
+      iex> Talib.Utility.low!([1, nil, 3])
+      1
+
+      iex> Talib.Utility.low!([nil])
+      nil
+
       iex> Talib.Utility.low!([])
       ** (NoDataError) no data error
 
@@ -384,8 +433,12 @@ defmodule Talib.Utility do
 
   """
   @spec low!([number]) :: number | no_return
-  def low!([]), do: raise %NoDataError{}
-  def low!(data), do: Enum.min(data)
+  def low!(data) do
+    case low(data) do
+      {:ok, result} -> result
+      {:error, :no_data} -> raise NoDataError
+    end
+  end
 
   @doc """
   Creates a map with the amount of times each element of a
@@ -401,6 +454,9 @@ defmodule Talib.Utility do
       iex> Talib.Utility.occur!([1, 2, 3, 2])
       %{1 => 1, 2 => 2, 3 => 1}
 
+      iex> Talib.Utility.occur!([nil, 1, 2, 3, 2])
+      %{1 => 1, 2 => 2, 3 => 1, nil => 1}
+
       iex> Talib.Utility.occur!([])
       ** (NoDataError) no data error
 
@@ -415,10 +471,14 @@ defmodule Talib.Utility do
 
   """
   @spec occur!([number]) :: map | no_return
-  def occur!([]), do: raise %NoDataError{}
+  def occur!([]), do: raise NoDataError
   def occur!(data) do
     Enum.reduce(data, %{}, fn(tag, acc) ->
       Map.update(acc, tag, 1, &(&1 + 1))
     end)
   end
+
+  @doc false
+  @spec filter_nil([number | nil]) :: [number]
+  defp filter_nil(data), do: Enum.filter(data, &(&1 !== nil))
 end

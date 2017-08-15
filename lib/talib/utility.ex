@@ -298,7 +298,7 @@ defmodule Talib.Utility do
   """
   @spec change!([number], integer) :: [number, ...] | no_return
   def change!(data, direction \\ 0)
-  def change!(data, direction), do: change(data, direction) |> to_bang_function
+  def change!(data, direction), do: data |> change(direction) |> to_bang_function
 
   @doc """
   Gets the gain in the list.
@@ -364,7 +364,7 @@ defmodule Talib.Utility do
 
   """
   @spec high!([number]) :: number | no_return
-  def high!(data), do: high(data) |> to_bang_function
+  def high!(data), do: data |> high |> to_bang_function
 
   @doc """
   Gets the loss in the list.
@@ -430,7 +430,7 @@ defmodule Talib.Utility do
 
   """
   @spec low!([number]) :: number | no_return
-  def low!(data), do: low(data) |> to_bang_function
+  def low!(data), do: data |> low |> to_bang_function
 
   @doc """
   Creates a map with the amount of times each element of a
@@ -463,7 +463,7 @@ defmodule Talib.Utility do
 
   """
   @spec occur!([number]) :: map | no_return
-  def occur!(data), do: occur(data) |> to_bang_function
+  def occur!(data), do: data |> occur |> to_bang_function
 
   @doc """
   Filters nil from the input list.

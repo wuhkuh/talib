@@ -69,8 +69,9 @@ defmodule Talib.Utility do
   @doc """
   Gets the gain in the list.
 
-  Alias for `MovingAverage.change(data, 1)`.
   Returns `{:ok, gain}`, otherwise `{:error, reason}`.
+
+  Alias for `Talib.Utility.change(data, 1)`.
 
   ## Examples
 
@@ -142,8 +143,9 @@ defmodule Talib.Utility do
   @doc """
   Gets the loss in the list.
 
-  Alias for `MovingAverage.change(data, -1)`.
   Returns `{:ok, loss}`, otherwise `{:error, reason}`.
+
+  Alias for `Talib.Utility.change(data, -1)`.
 
   ## Examples
 
@@ -272,6 +274,9 @@ defmodule Talib.Utility do
       iex> Talib.Utility.change!([1, 2, -3], 1)
       [nil, 1, 0]
 
+      iex> Talib.Utility.change!([1, 2, nil, -3], 0)
+      [nil, 1, nil, nil]
+
       iex> Talib.Utility.change!([1, 2, -3], -1)
       [nil, 0, 5]
 
@@ -292,19 +297,15 @@ defmodule Talib.Utility do
 
   """
   @spec change!([number], integer) :: [number, ...] | no_return
-  def change!(_data, direction \\ 0)
-  def change!([], _direction), do: raise NoDataError
-  def change!(data, direction) do
-    {:ok, result} = change(data, direction)
-
-    result
-  end
+  def change!(data, direction \\ 0)
+  def change!(data, direction), do: change(data, direction) |> to_bang_function
 
   @doc """
   Gets the gain in the list.
 
-  Alias for `MovingAverage.change!(data, 1)`.
   Raises `NoDataError` if the given list is an empty list.
+
+  Alias for `Talib.Utility.change!(data, 1)`.
 
   ## Examples
 
@@ -363,18 +364,14 @@ defmodule Talib.Utility do
 
   """
   @spec high!([number]) :: number | no_return
-  def high!(data) do
-    case high(data) do
-      {:ok, result} -> result
-      {:error, :no_data} -> raise NoDataError
-    end
-  end
+  def high!(data), do: high(data) |> to_bang_function
 
   @doc """
   Gets the loss in the list.
 
-  Alias for `MovingAverage.change!(data, -1)`.
   Raises `NoDataError` if the given list is an empty list.
+
+  Alias for `Talib.Utility.change!(data, -1)`.
 
   ## Examples
 
@@ -433,12 +430,7 @@ defmodule Talib.Utility do
 
   """
   @spec low!([number]) :: number | no_return
-  def low!(data) do
-    case low(data) do
-      {:ok, result} -> result
-      {:error, :no_data} -> raise NoDataError
-    end
-  end
+  def low!(data), do: low(data) |> to_bang_function
 
   @doc """
   Creates a map with the amount of times each element of a
@@ -471,14 +463,43 @@ defmodule Talib.Utility do
 
   """
   @spec occur!([number]) :: map | no_return
-  def occur!([]), do: raise NoDataError
-  def occur!(data) do
-    Enum.reduce(data, %{}, fn(tag, acc) ->
-      Map.update(acc, tag, 1, &(&1 + 1))
-    end)
-  end
+  def occur!(data), do: occur(data) |> to_bang_function
 
-  @doc false
+  @doc """
+  Filters nil from the input list.
+
+  ## Examples
+
+    iex> Talib.Utility.filter_nil([1, 2, 3, nil, 5])
+    [1, 2, 3, 5]
+
+  """
   @spec filter_nil([number | nil]) :: [number]
-  defp filter_nil(data), do: Enum.filter(data, &(&1 !== nil))
+  def filter_nil(data), do: Enum.filter(data, &(&1 !== nil))
+
+
+  @doc """
+  Transforms an input function to a bang function, which either returns the
+  output value or raises errors.
+
+  ## Examples
+
+    iex> Talib.Utility.to_bang_function({:ok, [1, 2, 3, nil, 5]})
+    [1, 2, 3, nil, 5]
+
+    iex> Talib.Utility.to_bang_function({:error, :bad_period})
+    ** (BadPeriodError) bad period error
+
+    iex> Talib.Utility.to_bang_function({:error, :no_data})
+    ** (NoDataError) no data error
+
+  """
+  @spec to_bang_function({atom, any | atom}) :: any | no_return
+  def to_bang_function({:ok, result}), do: result
+  def to_bang_function({:error, error}) do
+    case error do
+      :bad_period -> raise BadPeriodError
+      :no_data -> raise NoDataError
+    end
+  end
 end

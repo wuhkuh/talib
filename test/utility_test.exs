@@ -148,4 +148,23 @@ defmodule Talib.UtilityTest do
     assert Utility.occur!([3]) === %{3 => 1}
     assert_raise NoDataError, fn -> Utility.occur!([]) end
   end
+
+  test "filter_nil/1" do
+    assert Utility.filter_nil(Fixtures.numbers) === Fixtures.numbers
+    assert Utility.filter_nil([nil, 3, nil]) === [3]
+    assert Utility.filter_nil([nil, 3]) === [3]
+    assert Utility.filter_nil([nil]) === []
+    assert Utility.filter_nil([3]) === [3]
+  end
+
+  test "to_bang_function/1" do
+    assert Talib.Utility.to_bang_function({:ok, [1, nil, 5]}) === [1, nil, 5]
+    assert_raise BadPeriodError, fn ->
+      Talib.Utility.to_bang_function({:error, :bad_period})
+    end
+
+    assert_raise NoDataError, fn ->
+      Talib.Utility.to_bang_function({:error, :no_data})
+    end
+  end
 end

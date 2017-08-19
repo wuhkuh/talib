@@ -20,7 +20,7 @@ A list of indicators will be collected and designated to a version of Talib.
 This is based on indicator popularity - for example: RSI and MACD will be  
 released early, while the DeMark indicator will be planned for a later phase.
 
-For the proposed planning, view [PLANNING.md](PLANNING.md)
+For the proposed planning, view [PLANNING.md](PLANNING.md).
 
 ### 2. Research phase
 

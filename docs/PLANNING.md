@@ -40,7 +40,7 @@ version of Talib.
 | VWAP      |       |       |   X   |
 | ZLEMA     |       |       |   X   |
 
-| Overlays  | 0.1.0 | 0.2.0 | Later |
+| Overlay   | 0.1.0 | 0.2.0 | Later |
 | :-------- | :---: | :---: | :---: |
 | Bollinger |       |   X   |       |
 | Donchian  |       |       |   X   |

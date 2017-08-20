@@ -5,12 +5,12 @@ Functions will be written in C and ported to Elixir using a NIF.
 
 This change of direction will happen in 4 phases:
 
-|    Phase     | Status  |
-| ------------ | :-----: |
-| Planning     | Ongoing |
-| Research     | Planned |
-| Description  | Planned |
-| Development  | Planned |
+|    Phase     |  Status  |
+| ------------ | :------- |
+| Planning     | Complete |
+| Research     | Ongoing  |
+| Description  | Planned  |
+| Development  | Planned  |
 
 
 ### 1. Planning phase
@@ -25,8 +25,9 @@ For the proposed planning, view [PLANNING.md](PLANNING.md).
 ### 2. Research phase
 
 Studies will be read to extract the appropriate formulas. Every indicator will  
-be based on the **original** research. Different implementations of the same  
-indicator will be named accordingly.
+be based on the **original** study. Different implementations of the same  
+indicator will be named accordingly. 'Basic' math like moving averages will be  
+based on standards used today, for efficiency purposes.
 
 For example: RSI will be based on an SMMA (which is from the original study),  
 while the RSI based on EMA will be called RSI_EMA.

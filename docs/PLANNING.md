@@ -38,6 +38,7 @@ version of Talib.
 | UltOsc    |       |       |   X   |
 | VPT       |       |       |   X   |
 | VWAP      |       |       |   X   |
+| WMA       |   X   |       |       |
 | ZLEMA     |       |       |   X   |
 
 | Overlay   | 0.1.0 | 0.2.0 | Later |

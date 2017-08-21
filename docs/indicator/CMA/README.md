@@ -1,6 +1,7 @@
 # Cumulative Moving Average
 
 ## About
+
 * Added in: [0.1.0](https://github.com/wuhkuh/talib/releases/tag/0.1.0)
 * Type: Trend indicator
 
@@ -17,13 +18,14 @@
 Sources are ordered by type and trustworthiness.
 
 ### Derived formula
+
 ![](CMA.png)
 
 To calculate the next CMA, this formula is used:  
 
 ![](CMA1.png)
 
-Where `n` is the current weight and `x` is the current value (usually price).
+Where `n` is the number of elements and `x` is the current value (usually price).
 
 ### Unit tests
 

@@ -6,7 +6,7 @@
 
 ## Research
 
-#### Sources
+### Sources
 
 | Type        | Name                      | By     | Retrieved at | Reference |
 | :---------- | :------------------------ | :----- | :----------: | :-------: |
@@ -16,7 +16,7 @@
 
 Sources are ordered by type and trustworthiness.
 
-#### Derived formula
+### Derived formula
 ![](CMA.png)
 
 To calculate the next CMA, this formula is used:  
@@ -25,7 +25,7 @@ To calculate the next CMA, this formula is used:
 
 Where `n` is the current weight and `x` is the current value (usually price).
 
-#### Unit tests
+### Unit tests
 
 <table>
   <tr>
@@ -55,7 +55,7 @@ Where `n` is the current weight and `x` is the current value (usually price).
     <td>26.3</td>
   </tr>
   <tr>
-    <th>[Reference](https://qkdb.wordpress.com/tag/cumulative-moving-average/)</th>
+    <th><a href=https://qkdb.wordpress.com/tag/cumulative-moving-average/>Reference</a></th>
   </tr>
 </table>
 

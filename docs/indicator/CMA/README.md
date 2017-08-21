@@ -25,36 +25,36 @@ To calculate the next CMA, this formula is used:
 
 ![](CMA1.png)
 
-Where `n` is the number of elements and `x` is the current value (usually price).
+Where `n` is the number of elements and `x` is the current value, usually price.
 
 ### Unit tests
 
 <table>
   <tr>
     <th>Input</th>
-    <td>17</td>
-    <td>23</td>
-    <td>44</td>
-    <td>12</td>
-    <td>2</td>
-    <td>36</td>
-    <td>37</td>
-    <td>44</td>
-    <td>28</td>
-    <td>20</td>
+    <td>17.00000</td>
+    <td>23.00000</td>
+    <td>44.00000</td>
+    <td>12.00000</td>
+    <td>2.00000</td>
+    <td>36.00000</td>
+    <td>37.00000</td>
+    <td>44.00000</td>
+    <td>28.00000</td>
+    <td>20.00000</td>
   </tr>
   <tr>
     <th>Output</th>
-    <td>17</td>
-    <td>20</td>
-    <td>28</td>
-    <td>24</td>
-    <td>19.6</td>
+    <td>17.00000</td>
+    <td>20.00000</td>
+    <td>28.00000</td>
+    <td>24.00000</td>
+    <td>19.60000</td>
     <td>22.33333</td>
     <td>24.42857</td>
-    <td>26.875</td>
-    <td>27</td>
-    <td>26.3</td>
+    <td>26.87500</td>
+    <td>27.00000</td>
+    <td>26.30000</td>
   </tr>
   <tr>
     <th><a href=https://qkdb.wordpress.com/tag/cumulative-moving-average/>Reference</a></th>

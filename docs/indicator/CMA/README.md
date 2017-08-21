@@ -19,8 +19,9 @@ Sources are ordered by type and trustworthiness.
 ![](CMA.png)
 
 To calculate the next CMA, this formula is used:  
+
 ![](CMA1.png)
 
-Where n is the current weight and x is the current value (usually price).
+Where `n` is the current weight and `x` is the current value (usually price).
 
 ## Pseudo-code

@@ -26,8 +26,8 @@ To calculate `K`, this formula is used:
 
 ![](EMA1.png)
 
-Where `i` is the index, `p` is the assigned period and `x` is the current  
-value, usually price.
+Where `i` is the index, `p` is the assigned period and `x` is the value,  
+usually price.
 
 ### Unit tests
 

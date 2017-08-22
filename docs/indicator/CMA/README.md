@@ -25,7 +25,7 @@ To calculate the next CMA, this formula is used:
 
 ![](CMA1.png)
 
-Where `n` is the number of elements and `x` is the current value, usually price.
+Where `n` is the number of elements and `x` is the value, usually price.
 
 ### Unit tests
 

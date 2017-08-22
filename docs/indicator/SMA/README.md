@@ -21,7 +21,8 @@ Sources are ordered by type and trustworthiness.
 
 ![](SMA.png)
 
-Where `i` is the index, `p` is the assigned period and `x` is the value, usually price.
+Where `i` is the index, `p` is the assigned period and `x` is the value,  
+usually price.
 
 ### Unit tests
 

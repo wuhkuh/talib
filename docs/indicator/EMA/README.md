@@ -22,10 +22,6 @@ Sources are ordered by type and trustworthiness.
 
 ![](EMA.png)
 
-To calculate `K`, this formula is used:
-
-![](EMA1.png)
-
 Where `i` is the index, `p` is the assigned period and `x` is the value,  
 usually price.
 

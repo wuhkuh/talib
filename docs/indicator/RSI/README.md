@@ -24,18 +24,13 @@ RSI is based on Relative Strength, shown in the formula below.
 ![](RSI1.png)
 
 Relative Strength can return NaN if not used carefully. Therefore, a piecewise  
-function should prevent returning NaN when average loss equals 0.
+function should prevent returning NaN when average loss equals 0.  
+`SMMA` refers to Wilder's Moving Average, also known as Smoothed Moving  
+Average, which is defined in the [docs](../SMMA).
 
 ![](RSI2.png)
 
 ![](RSI3.png)
-
-These moving averages are based on Wilder's Moving Average, often known as  
-SMMA.
-
-![](RSI4.png)
-
-![](RSI5.png)
 
 Where `i` is the index, `p` is the assigned period and `x` is the value,  
 usually price.

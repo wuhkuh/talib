@@ -3,7 +3,7 @@
 Talib provides easy access to indicators, oscillators and several utility
 functions.
 
-It's currently a work in progress; updates will be pushed on a regular basis.
+## Talib is currently undergoing changes! View the [docs](docs) folder for more info.
 
 ## Features
 

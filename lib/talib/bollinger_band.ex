@@ -5,7 +5,7 @@ defmodule Talib.BollingerBand do
   require Logger
 
   @moduledoc ~S"""
-  Defines a Moving Average Convergence/Divergence index.
+  Defines a Bollinger bands.
 
   ## History
 
@@ -23,9 +23,6 @@ defmodule Talib.BollingerBand do
   Defines a Bollinger Band price volatility.
   * :period - Period used to calculate SMA, typically 20
   * :deviation - Multiplier to standard deviation from SMA typically 2
-  * :middle_band - The 20-day simple moving average (SMA)
-  * :upper_band - Roof of the price volatility
-  * :lower_band - Bottom of the price volatlity
   * :values - List of values resulting from the calculation {upper, middle, lower}
   """
   @type t :: %Talib.BollingerBand{
@@ -48,7 +45,7 @@ defmodule Talib.BollingerBand do
 
   ## Examples
 
-      iex>Talib.MACD.from_list([1, 2, 3], 26, 12, 9)
+      iex>Talib.BollingeBand.from_list([1, 2, 3, 4, 5, 6], 3, 2)
       {:ok, %Talib.MACD{
         long_period: 26,
         short_period: 12,
@@ -77,18 +74,21 @@ defmodule Talib.BollingerBand do
   ## Examples
 
       iex>Talib.MACD.from_list!([1, 2, 3], 26, 12, 9)
-      %Talib.MACD{
-        long_period: 26,
-        short_period: 12,
-        signal_period: 9,
-        values: [
-          {0.0, 1.0},
-          {0.07977207977207978, 1.2000000000000002},
-          {0.22113456871291648, 1.5600000000000003}
-        ]
+      {:ok,
+        %Talib.BollingerBand{
+          deviation: 2,
+          period: 3,
+          values: [
+            {nil, nil, nil},
+            {nil, nil, nil},
+            {3.632993161855452, 2.0, 0.36700683814454793},
+            {4.6329931618554525, 3.0, 1.367006838144548},
+            {5.0, 4.0, 3.0}
+          ]
+        }
       }
 
-      iex>Talib.MACD.from_list!([], 26, 12, 9)
+      iex>Talib.BollingerBand.from_list!([], 20, 2)
       ** (NoDataError) no data error
   """
   @spec from_list!([number], integer, integer) :: Talib.BBand.t

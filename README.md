@@ -30,6 +30,7 @@ It's currently a work in progress; updates will be pushed on a regular basis.
 - Indicator
   - MACD (Moving Average Convergence Divergence)
   - RSI (Relative Strength Index)
+  - Bollinger Bands
 
 ## Why?
 

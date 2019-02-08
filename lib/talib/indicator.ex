@@ -2,6 +2,7 @@
 defmodule Talib.Indicator do
   alias Talib.MovingAverage
   alias Talib.Utility
+  alias Talib.SMA
 
   @moduledoc ~S"""
   Module containing indicator functions, such as the RSI.
@@ -88,4 +89,5 @@ defmodule Talib.Indicator do
       100 - 100 / (relative_strength + 1)
     end
   end
+
 end

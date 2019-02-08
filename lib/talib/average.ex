@@ -320,6 +320,42 @@ defmodule Talib.Average do
   end
 
   @doc false
+  @spec deviation!([number]) :: [number, ...] | number | no_return
+  def deviation!([]), do: raise NoDataError
+  def deviation!(data) do
+    m = data
+    |> mean!
+
+    l = length(data)
+    
+    data
+    |> Enum.reduce(0, fn(x, acc) -> :math.pow(x - m, 2) + acc end)
+    |> Kernel./(l)
+    |> :math.sqrt()
+
+  end
+
+  defp deviation_reduce(data, mean) do
+    l = length(data)
+    data
+    |> Enum.reduce(0, fn(x, acc) -> :math.pow(x - mean, 2) + acc end)
+    |> Kernel./(l)
+    |> :math.sqrt()
+  end
+
+  @doc false
+  @spec deviation([number]) :: [number, ...] | number | {:error, atom}
+  def deviation([]), do: {:error, :no_data}
+  def deviation(data) do
+    case data |> mean do
+      {:ok, mean} -> deviation_reduce(data, mean)
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+
+
+  @doc false
   @spec map_max(map()) :: number | [number, ...]
   defp map_max(map) do
     max = map

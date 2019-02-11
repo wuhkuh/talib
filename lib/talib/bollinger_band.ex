@@ -136,7 +136,7 @@ defmodule Talib.BollingerBand do
       bband = Enum.chunk_every(shaped_data, period, 1)
       |> Enum.zip(middle_band)
       |> Enum.map(fn({series, m}) -> calculate_bband_point(m, series, deviation) end)
-
+      
       {:ok, %Talib.BollingerBand{
         period: period,
         deviation: deviation,

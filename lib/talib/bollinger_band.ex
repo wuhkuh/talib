@@ -45,19 +45,20 @@ defmodule Talib.BollingerBand do
 
   ## Examples
 
-      iex>Talib.BollingeBand.from_list([1, 2, 3, 4, 5, 6], 3, 2)
-      {:ok, %Talib.MACD{
-        long_period: 26,
-        short_period: 12,
-        signal_period: 9,
+      iex>Talib.BollingerBand.from_list([1, 2, 3, 4, 5, 6], 3, 2)
+      {:ok, %Talib.BollingerBand{
+        period: 3,
+        deviation: 2,
         values: [
-          {0.0, 1.0},
-          {0.07977207977207978, 1.2000000000000002},
-          {0.22113456871291648, 1.5600000000000003}
+        {nil, nil, nil}, 
+        {nil, nil, nil}, 
+        {3.632993161855452, 2.0, 0.36700683814454793}, 
+        {4.6329931618554525, 3.0, 1.367006838144548}, 
+        {5.0, 4.0, 3.0}
         ]
       }}
 
-      iex>Talib.MACD.from_list([], 26, 12, 9)
+      iex>Talib.BollingerBand.from_list([], 3, 2)
       {:error, :no_data}
   """
   @spec from_list([number], integer, integer) :: {:ok, Talib.BollingerBand.t}
@@ -66,26 +67,21 @@ defmodule Talib.BollingerBand do
     do: calculate(data, period, deviation)
 
   @doc """
-  Gets the MACD of a list.
+  Gets the BBand of a list.
 
-  The return tuple looks like the following: {MACD, MACD Signal}.
+  The return tuple looks like the following: {Upper Band, Middle, Lower Band}.
   Raises `NoDataError` if the given list is an empty list.
 
   ## Examples
 
-      iex>Talib.MACD.from_list!([1, 2, 3], 26, 12, 9)
-      {:ok,
-        %Talib.BollingerBand{
-          deviation: 2,
-          period: 3,
-          values: [
-            {nil, nil, nil},
-            {nil, nil, nil},
-            {3.632993161855452, 2.0, 0.36700683814454793},
-            {4.6329931618554525, 3.0, 1.367006838144548},
-            {5.0, 4.0, 3.0}
-          ]
-        }
+      iex>Talib.BollingerBand.from_list!([1, 2, 3], 3, 2)
+      %Talib.BollingerBand{
+              deviation: 2,
+              period: 3,
+              values: [
+              {nil, nil, nil},
+              {nil, nil, nil}
+            ]
       }
 
       iex>Talib.BollingerBand.from_list!([], 20, 2)

@@ -98,8 +98,8 @@ defmodule Talib.SMA do
       length(data) >= period ->
         result = data
         |> Enum.take(period)
-        |> Enum.sum
-        |> Kernel./(period)
+        |> Enum.filter(&(Kernel.!=(&1, nil)))
+        |> (fn(x) -> Enum.sum(x)/Enum.count(x) end).()
 
         calculate(tl, period, results ++ [result])
     end

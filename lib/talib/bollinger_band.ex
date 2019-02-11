@@ -123,19 +123,29 @@ defmodule Talib.BollingerBand do
     OK.with do
       %SMA{values: middle_band} <- SMA.from_list(data, period)
       
-      append_length = data
-      |> length
-      |> rem(period)
-      |> (fn x -> Kernel.-(period, x) end).()
-
-      append_list = Stream.cycle([nil])
-      |> Enum.take(append_length)
       
-      shaped_data = append_list ++ data
 
-      bband = Enum.chunk_every(shaped_data, period, 1)
+      bband_ = data
+      |> Enum.reverse
+      |> Enum.chunk_every(period, 1, [nil])
+      |> Enum.reverse
+      |> Enum.map(&Enum.reverse(&1))
+
+      deficit = length(data) - length(bband_)
+      empty = Stream.cycle([nil])
+      |> Enum.take(period)
+
+      bband = Stream.cycle([empty])
+      |> Enum.take(deficit)
+      |> Kernel.++(bband_)
       |> Enum.zip(middle_band)
       |> Enum.map(fn({series, m}) -> calculate_bband_point(m, series, deviation) end)
+
+      #bband = Enum.chunk_every(shaped_data, period, 1, [7])
+      #IO.inspect bband, limit: :infinity
+      #IO.inspect length(bband)
+      #|> Enum.zip(middle_band)
+      #|> Enum.map(fn({series, m}) -> calculate_bband_point(m, series, deviation) end)
       
       {:ok, %Talib.BollingerBand{
         period: period,

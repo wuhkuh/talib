@@ -12,12 +12,29 @@ defmodule Talib.SMATest do
       ]
     end
 
+    def numbers_with_nil do
+      [
+        89, 77,  53, 64, 78, 67, 30,  6, 24, 53,
+        46, 30, 100, 48, 34, 69, 40, nil, 66, 89
+      ]
+    end
+
     def numbers_sma_10 do
       [
         nil, nil, nil, nil, nil,
         nil, nil, nil, nil, 54.1,
         49.8, 45.1, 49.8, 48.2, 43.8,
         44.0, 45.0, 48.8, 53.0, 56.6
+      ]
+    end
+
+    def numbers_sma_10_with_nil do
+      [
+        nil, nil, nil, nil, nil,
+        nil, nil, nil, nil, 54.1,
+        49.8, 45.1, 49.8, 48.2, 43.8,
+        44.0, 45.0, 49.333333333333336, 
+        54.0, 58.0
       ]
     end
   end
@@ -27,6 +44,12 @@ defmodule Talib.SMATest do
       {:ok, %Talib.SMA{
         period: 10,
         values: Fixtures.numbers_sma_10
+      }}
+
+    assert SMA.from_list(Fixtures.numbers_with_nil, 10) ==
+      {:ok, %Talib.SMA{
+        period: 10,
+        values: Fixtures.numbers_sma_10_with_nil
       }}
 
     assert SMA.from_list([nil, 87, 77], 2) ==

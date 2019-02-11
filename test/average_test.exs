@@ -16,6 +16,7 @@ defmodule Talib.AverageTest do
     def numbers_median, do: (53 + 46) / 2
     def numbers_mode, do: [30, 53, 89]
     def numbers_midrange, do: (6 + 100) / 2
+    def numbers_deviation, do: 23.902458032595728
   end
 
   test "mean/1" do
@@ -67,4 +68,11 @@ defmodule Talib.AverageTest do
     assert Average.mode!([3]) == 3
     assert_raise NoDataError, fn -> Average.mode!([]) end
   end
+
+  test "deviation!/1" do
+    assert Average.deviation!(Fixtures.numbers) == Fixtures.numbers_deviation
+    assert Average.deviation!([3]) == 0.0
+    assert_raise NoDataError, fn -> Average.deviation!([]) end
+  end
+
 end

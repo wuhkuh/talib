@@ -35,7 +35,11 @@ defmodule Talib.Average do
   """
   @spec mean([number]) :: {:ok, number} | {:error, atom}
   def mean([]), do: {:error, :no_data}
-  def mean(data), do: {:ok, Enum.sum(data) / length(data)}
+  def mean(data) do
+    {:ok, Enum.filter(data, &(Kernel.!=(&1, nil)))
+          |> (fn(x) -> Enum.sum(x)/Enum.count(x) end).()
+    }
+  end
 
   @doc """
   Gets the median of a list.
@@ -192,7 +196,10 @@ defmodule Talib.Average do
   """
   @spec mean!([number]) :: number | no_return
   def mean!([]), do: raise NoDataError
-  def mean!(data), do: Enum.sum(data) / length(data)
+  def mean!(data) do
+    Enum.filter(data, &(Kernel.!=(&1, nil)))
+    |> (fn(x) -> Enum.sum(x)/Enum.count(x) end).()
+  end
 
   @doc """
   Gets the median of a list.
@@ -318,6 +325,36 @@ defmodule Talib.Average do
     |> Utility.occur!
     |> map_max
   end
+
+  @doc false
+  @spec deviation!([number]) :: [number, ...] | number | no_return
+  def deviation!([]), do: raise NoDataError
+  def deviation!(data) do
+    m = data
+    |> mean!
+
+    deviation_reduce(data, m)
+  end
+
+  defp deviation_reduce(data, m) do
+    data
+    |> Enum.filter(&Kernel.!=(&1, nil))
+    |> Enum.map(&:math.pow(&1 - m, 2))
+    |> (fn (x) -> Enum.sum(x)/Enum.count(x) end).()
+    |> :math.sqrt()
+  end
+
+  @doc false
+  @spec deviation([number]) :: [number, ...] | number | {:error, atom}
+  def deviation([]), do: {:error, :no_data}
+  def deviation(data) do
+    case data |> mean do
+      {:ok, m} -> deviation_reduce(data, m)
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+
 
   @doc false
   @spec map_max(map()) :: number | [number, ...]

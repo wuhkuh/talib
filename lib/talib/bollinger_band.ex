@@ -52,9 +52,10 @@ defmodule Talib.BollingerBand do
         values: [
         {nil, nil, nil}, 
         {nil, nil, nil}, 
-        {3.632993161855452, 2.0, 0.36700683814454793}, 
+        {3.0, 2.0, 1.0}, 
         {4.6329931618554525, 3.0, 1.367006838144548}, 
-        {5.0, 4.0, 3.0}
+        {5.6329931618554525, 4.0, 2.367006838144548}, 
+        {6.6329931618554525, 5.0, 3.367006838144548}
         ]
       }}
 
@@ -79,8 +80,9 @@ defmodule Talib.BollingerBand do
               deviation: 2,
               period: 3,
               values: [
-              {nil, nil, nil},
-              {nil, nil, nil}
+              {nil, nil, nil}, 
+              {nil, nil, nil}, 
+              {3.0, 2.0, 1.0}
             ]
       }
 
@@ -120,7 +122,18 @@ defmodule Talib.BollingerBand do
   defp calculate(data, period, deviation) do
     OK.with do
       %SMA{values: middle_band} <- SMA.from_list(data, period)
-      bband = Enum.chunk_every(data, period, 1)
+      
+      append_length = data
+      |> length
+      |> rem(period)
+      |> (fn x -> Kernel.-(period, x) end).()
+
+      append_list = Stream.cycle([nil])
+      |> Enum.take(append_length)
+      
+      shaped_data = append_list ++ data
+
+      bband = Enum.chunk_every(shaped_data, period, 1)
       |> Enum.zip(middle_band)
       |> Enum.map(fn({series, m}) -> calculate_bband_point(m, series, deviation) end)
 
